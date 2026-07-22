@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaixaLivre Tech Pro | PDV Inteligente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+
+    <div class="glow-bg"></div>
+
+    <header class="tech-header">
+        <div class="brand">
+            <div class="status-indicator online" title="Sistema Operacional & Seguro"></div>
+            <h1>CAIXA<span>LIVRE</span> <small>v3.0 TECH</small></h1>
+        </div>
+
+        <div class="system-stats">
+            <div class="stat-box">
+                <span class="stat-label">OPERADOR</span>
+                <span class="stat-val">CAIXA 01 [ONLINE]</span>
+            </div>
+            <div class="stat-box destaque">
+                <span class="stat-label">FATURAMENTO DIA</span>
+                <span class="stat-val mono" id="total-caixa-dia">R$ 0,00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA SUPERIOR DE LEITURA RÁPIDA -->
+    <div class="scanner-bar">
+        <div class="scanner-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+        </div>
+        <input type="text" id="input-barcode" placeholder="SCAMMER DE CÓDIGO DE BARRAS / BUSCA RÁPIDA [TECLE ENTER]..." autofocus autocomplete="off">
+        <span class="pulse-tag">SCANNER ATIVO</span>
+    </div>
+
+    <main class="tech-grid">
+
+        <!-- PAINEL ESQUERDO: CATÁLOGO & CADASTRO -->
+        <section class="glass-panel">
+            <div class="panel-nav">
+                <button id="tab-cat" class="tab-btn active" onclick="switchTab('catalogo')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    PRODUTOS
+                </button>
+                <button id="tab-cad" class="tab-btn" onclick="switchTab('cadastro')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    NOVO ITEM
+                </button>
+            </div>
+
+            <!-- VISÃO CATÁLOGO -->
+            <div id="view-catalogo" class="view-container">
+                <div class="search-wrapper">
+                    <input type="text" id="busca-produto" placeholder="Filtrar por nome ou categoria..." oninput="filtrarCardapio()">
+                </div>
+                <div id="grid-produtos" class="tech-product-grid"></div>
+            </div>
+
+            <!-- VISÃO CADASTRO -->
+            <div id="view-cadastro" class="view-container hidden">
+                <form class="tech-form" onsubmit="cadastrarProduto(event)">
+                    <div class="input-group">
+                        <label>NOME DO PRODUTO</label>
+                        <input type="text" id="cad-nome" placeholder="Ex: Cerveja IPA 500ml" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>PREÇO DE VENDA (R$)</label>
+                            <input type="number" step="0.01" id="cad-preco" placeholder="0.00" required>
+                        </div>
+                        <div class="input-group">
+                            <label>CÓDIGO DE BARRAS / SKU</label>
+                            <input type="text" id="cad-codigo" placeholder="789...">
+                        </div>
+                    </div>
+                    <button type="submit" class="tech-btn primary">CADASTRAR PRODUTO</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- PAINEL DIREITO: OPERAÇÃO DE CAIXA -->
+        <section class="glass-panel main-checkout">
+            <div class="panel-nav">
+                <button id="mode-balcao" class="tab-btn active" onclick="switchMode('balcao')">VENDA BALCÃO</button>
+                <button id="mode-mesas" class="tab-btn" onclick="switchMode('mesas')">GESTÃO DE MESAS</button>
+            </div>
+
+            <!-- MODALIDADE BALCÃO -->
+            <div id="view-balcao" class="checkout-container">
+                <div class="cart-header">
+                    <span>ITEM / DESCRIÇÃO</span>
+                    <span>QTD / VALOR</span>
+                </div>
+                <div id="itens-balcao" class="cart-list"></div>
+
+                <div class="checkout-summary">
+                    <div class="payment-selector">
+                        <label>FORMA DE PAGAMENTO</label>
+                        <select id="pagamento-balcao" onchange="checkPaymentMethod('balcao')">
+                            <option value="PIX">⚡ PIX (Aprovação Instantânea)</option>
+                            <option value="Cartão de Crédito">💳 Cartão de Crédito</option>
+                            <option value="Cartão de Débito">💳 Cartão de Débito</option>
+                            <option value="Dinheiro">💵 Dinheiro em Espécie</option>
+                        </select>
+                    </div>
+
+                    <div id="cash-box-balcao" class="cash-box hidden">
+                        <div class="input-group">
+                            <label>VALOR RECEBIDO (R$)</label>
+                            <input type="number" id="valor-recebido-balcao" step="0.01" placeholder="0.00" oninput="calculateChange('balcao')">
+                        </div>
+                        <div class="change-display">
+                            <span>TROCO:</span>
+                            <strong id="troco-valor-balcao" class="mono">R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                    <div class="total-display">
+                        <span>TOTAL DA OPERAÇÃO</span>
+                        <h2 id="total-balcao" class="mono">R$ 0,00</h2>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="tech-btn secondary" onclick="imprimirComprovante('balcao')">🖨️ CUPOM</button>
+                        <button class="tech-btn success" onclick="fecharVendaBalcao()">CONFIRMAR & PAGAR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODALIDADE MESAS -->
+            <div id="view-mesas" class="checkout-container hidden">
+                <div class="mesas-header">
+                    <span>SELEÇÃO DE MESA</span>
+                    <button class="tech-btn small" onclick="adicionarMesa()">+ NOVA MESA</button>
+                </div>
+                <div id="grid-mesas" class="tables-grid"></div>
+
+                <div id="detalhes-mesa" class="table-details hidden">
+                    <h3 id="titulo-mesa-selecionada" class="table-title">MESA 01</h3>
+                    <div id="itens-mesa" class="cart-list small-list"></div>
+
+                    <div class="checkout-summary">
+                        <div class="payment-selector">
+                            <select id="pagamento-mesa">
+                                <option value="PIX">⚡ PIX</option>
+                                <option value="Cartão">💳 Cartão</option>
+                                <option value="Dinheiro">💵 Dinheiro</option>
+                            </select>
+                        </div>
+                        <div class="total-display">
+                            <span>TOTAL MESA</span>
+                            <h2 id="total-mesa" class="mono">R$ 0,00</h2>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="tech-btn secondary" onclick="imprimirComprovante('mesa')">🖨️ CONFERÊNCIA</button>
+                            <button class="tech-btn success" onclick="fecharMesa()">FECHAR CONTA</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="area-cupom-impressao" class="print-only"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
