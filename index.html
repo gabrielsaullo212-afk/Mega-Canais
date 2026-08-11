@@ -3,524 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Canais — O Seu Streaming Definitivo</title>
-    
-    <!-- Google Fonts & FontAwesome -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <title>Mega Canais - Filmes, Séries e Esportes Ao Vivo</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* --- PALETA CYBERPUNK MEGA CANAIS --- */
-        :root {
-            --bg-dark: #060913;
-            --bg-card: rgba(12, 17, 34, 0.88);
-            
-            --neon-pink: #E026A5;
-            --neon-cyan: #00F0FF;
-            --neon-lime: #A3E635;
-            
-            --whatsapp-green: #25D366;
-            
-            --text-main: #FFFFFF;
-            --text-muted: #A1A1AA;
-            
-            --border-glow: rgba(0, 240, 255, 0.25);
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --radius-full: 9999px;
-            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            /* Imagem de fundo unificada com overlay escuro para excelente contraste */
-            background-image: 
-                linear-gradient(to bottom, rgba(6, 9, 19, 0.88), rgba(6, 9, 19, 0.95)),
-                url('logo.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-        .text-gradient {
-            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-pink) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .text-neon { color: var(--neon-cyan) !important; }
-
-        /* Header & Logo */
-        .header {
-            position: sticky; top: 0;
-            background: rgba(6, 9, 19, 0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 100; padding: 12px 0;
-        }
-        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
-
-        .logo-img {
-            height: 48px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-            object-fit: contain;
-        }
-
-        .nav-menu { display: flex; align-items: center; gap: 28px; list-style: none; }
-        .nav-link { text-decoration: none; color: var(--text-muted); font-weight: 600; font-size: 0.95rem; transition: var(--transition); }
-        .nav-link:hover { color: var(--neon-cyan); }
-
-        /* Botões */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 12px 26px; font-size: 0.9rem; font-weight: 700; border-radius: var(--radius-full);
-            text-decoration: none; transition: var(--transition); border: none; cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif; text-transform: uppercase;
-        }
-        .btn-neon {
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
-            color: #FFF; box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-        }
-        .btn-neon:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(224, 38, 165, 0.6); }
-        .btn-outline { background: rgba(255, 255, 255, 0.05); color: #FFF; border: 2px solid var(--neon-cyan); }
-        .btn-outline:hover { background: var(--neon-cyan); color: #000; }
-        .full-width { width: 100%; }
-
-        /* Hero */
-        .hero { padding: 80px 0 60px; }
-        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
-        .badge {
-            display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
-            background: rgba(0, 240, 255, 0.1); border: 1px solid var(--neon-cyan); color: var(--neon-cyan);
-            border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 700; margin-bottom: 20px;
-        }
-        .hero-title { font-size: 3.2rem; line-height: 1.15; font-weight: 800; margin-bottom: 20px; }
-        .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; }
-        .hero-actions { display: flex; gap: 16px; }
-
-        .hero-preview { display: grid; gap: 16px; }
-        .preview-card {
-            background: var(--bg-card); border: 1px solid var(--border-glow); padding: 24px;
-            border-radius: var(--radius-lg); text-align: center; backdrop-filter: blur(12px);
-        }
-        .preview-card i { font-size: 2rem; color: var(--neon-cyan); margin-bottom: 10px; }
-
-        /* Seção de Planos */
-        .plans-section { padding: 80px 0; background: rgba(6, 9, 19, 0.6); }
-        .section-header { text-align: center; max-width: 650px; margin: 0 auto 50px; }
-        .section-tag { color: var(--neon-pink); font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.15em; }
-        .section-title { font-size: 2.4rem; font-weight: 800; margin-top: 8px; }
-        .section-subtitle { color: var(--text-muted); margin-top: 8px; }
-
-        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: center; }
-        .plan-card {
-            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-lg); padding: 36px 28px; position: relative;
-            backdrop-filter: blur(16px); transition: var(--transition);
-        }
-        .plan-card:hover { transform: translateY(-8px); border-color: var(--neon-cyan); }
-        .plan-card.featured {
-            border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
-            background: rgba(12, 17, 34, 0.95);
-        }
-
-        .plan-badge, .plan-badge-promo {
-            position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-            padding: 6px 16px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em;
-        }
-        .plan-badge { background: var(--neon-cyan); color: #000; }
-        .plan-badge-promo { background: var(--neon-pink); color: #FFF; }
-
-        .plan-title { font-size: 1.5rem; text-align: center; margin-bottom: 4px; }
-        .plan-period { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
-
-        .plan-price { text-align: center; margin-bottom: 24px; }
-        .old-price { text-decoration: line-through; color: var(--text-muted); font-size: 1.1rem; display: block; }
-        .current-price { font-size: 3rem; font-weight: 800; font-family: 'Space Grotesk', sans-serif; color: #FFF; }
-        .current-price .cents { font-size: 1.5rem; }
-        .savings { display: block; color: var(--neon-lime); font-size: 0.85rem; font-weight: 700; margin-top: 4px; }
-
-        .plan-features { list-style: none; margin-bottom: 30px; }
-        .plan-features li { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 0.95rem; color: #E2E8F0; }
-        .plan-features i { color: var(--neon-cyan); }
-
-        /* Futebol com Escudos */
-        .football-ai { padding: 70px 0; }
-        .ai-status-text { font-size: 0.95rem; color: var(--neon-cyan); margin-top: 8px; }
-        .matches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-
-        .match-card {
-            background: var(--bg-card); border: 1px solid var(--border-glow); padding: 20px;
-            border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 14px;
-        }
-        .match-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
-        .match-league { font-weight: 700; color: var(--neon-cyan); }
-        .match-time { background: rgba(0, 240, 255, 0.15); color: var(--neon-cyan); padding: 4px 10px; border-radius: var(--radius-full); font-weight: 700; }
-
-        .match-teams-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-        .team-box { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1rem; width: 42%; }
-        .team-box.team-b { justify-content: flex-end; }
-        .team-flag { width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
-
-        .match-vs { font-weight: 800; color: var(--neon-pink); font-size: 0.9rem; }
-        .match-channel { font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px; display: flex; align-items: center; gap: 8px; }
-
-        /* Plataformas */
-        .platforms { padding: 60px 0; }
-        .platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-        .platform-card {
-            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.08); padding: 24px;
-            border-radius: var(--radius-md); text-align: center; display: flex; flex-direction: column;
-            align-items: center; gap: 12px; transition: var(--transition);
-        }
-        .platform-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); }
-        .platform-card i { font-size: 2.2rem; }
-
-        /* Catálogo HD */
-        .catalog { padding: 70px 0; }
-        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-        .catalog-card { border-radius: var(--radius-md); overflow: hidden; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); position: relative; }
-        .catalog-card img { width: 100%; height: 200px; object-fit: cover; }
-        .catalog-card h3 { padding: 16px; font-size: 1.1rem; }
-        .catalog-tag { position: absolute; top: 12px; left: 12px; background: rgba(6, 9, 19, 0.85); color: var(--neon-cyan); padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; }
-
-        /* Botão WhatsApp */
-        .whatsapp-float {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 60px; height: 60px; background-color: var(--whatsapp-green);
-            color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5); z-index: 1000;
-            transition: var(--transition); text-decoration: none;
-        }
-        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.8); }
-
-        .footer { padding: 40px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: center; color: var(--text-muted); }
-
-        @media (max-width: 800px) {
-            .hero-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 2.3rem; }
-            .nav-menu { display: none; }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Header / Navbar -->
-    <header class="header">
-        <div class="container nav-wrapper">
-            <a href="#" class="logo">
-                <img src="logo.jpg" alt="Mega Canais Logo" class="logo-img">
-            </a>
-            
-            <ul class="nav-menu">
-                <li><a href="#inicio" class="nav-link">Início</a></li>
-                <li><a href="#futebol" class="nav-link">Jogos de Hoje IA</a></li>
-                <li><a href="#plataformas" class="nav-link">Plataformas</a></li>
-                <li><a href="#planos" class="nav-link text-neon">Planos & Preços</a></li>
-                <li><a href="#catalogo" class="nav-link">Catálogo</a></li>
-            </ul>
-
-            <a href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Quero%20fazer%20um%20teste%20no%20Mega%20Canais." target="_blank" class="btn btn-neon">
-                <i class="fa-brands fa-whatsapp"></i> Teste Grátis
-            </a>
+    <!-- Header / Nav -->
+    <header>
+        <div class="logo">
+            <h2>Mega <span>Canais</span></h2>
         </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#plataformas">Plataformas</a></li>
+                <li><a href="#jogos">Jogos de Hoje</a></li>
+                <li><a href="#planos">Planos</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/5561981389486?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20do%20Mega%20Canais!" target="_blank" class="btn-whatsapp nav-btn">
+            <i class="fab fa-whatsapp"></i> Assinar Agora
+        </a>
     </header>
 
     <!-- Hero Section -->
     <section id="inicio" class="hero">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <div class="badge">
-                    <i class="fa-solid fa-robot"></i> Atualizado por IA em Tempo Real
-                </div>
-                <h1 class="hero-title">O melhor do entretenimento em <span class="text-gradient">Alta Definição.</span></h1>
-                <p class="hero-subtitle">
-                    Assista a todos os canais ao vivo, jogos de futebol do mundo inteiro, filmes e séries das maiores plataformas de streaming.
-                </p>
-                <div class="hero-actions">
-                    <a href="#planos" class="btn btn-neon"><i class="fa-solid fa-gem"></i> Ver Planos</a>
-                    <a href="#futebol" class="btn btn-outline"><i class="fa-solid fa-football"></i> Jogos de Hoje</a>
-                </div>
+        <div class="hero-content">
+            <h1>Sua Experiência Definitiva de Entretenimento</h1>
+            <p>Canais Ao Vivo, Filmes, Séries e o melhor do Futebol Mundial em um só lugar.</p>
+            <div class="hero-buttons">
+                <a href="#planos" class="btn-primary">Ver Planos</a>
+                <a href="https://wa.me/5561981389486?text=Quero%20testar%20o%20Mega%20Canais%20gr%C3%A1tis" target="_blank" class="btn-secondary">
+                    <i class="fab fa-whatsapp"></i> Teste Grátis
+                </a>
             </div>
+        </div>
+     entrance image option: coloca a imagem enviada na pasta do site com o nome "capa.jpg" -->
+    </section>
 
-            <div class="hero-preview">
-                <div class="preview-card">
-                    <i class="fa-solid fa-tv"></i>
-                    <h3>+1.000 Canais</h3>
-                    <p>Futebol ao vivo e variados em 4K/FHD</p>
-                </div>
-                <div class="preview-card">
-                    <i class="fa-solid fa-film"></i>
-                    <h3>Filmes & Séries</h3>
-                    <p>Atualizados diariamente pelas plataformas</p>
-                </div>
-            </div>
+    <!-- Plataformas -->
+    <section id="plataformas" class="platforms-section">
+        <h2>Todas as suas plataformas em um só app</h2>
+        <div class="platforms-grid">
+            <div class="platform-card">Netflix</div>
+            <div class="platform-card">GloboPlay</div>
+            <div class="platform-card">Paramount+</div>
+            <div class="platform-card">HBO Max</div>
+            <div class="platform-card">Telecine</div>
+            <div class="platform-card">Star+</div>
+            <div class="platform-card">Apple TV+</div>
+            <div class="platform-card">+ Canais Ao Vivo</div>
         </div>
     </section>
 
-    <!-- Seção de Planos -->
-    <section id="planos" class="plans-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Oferta Especial</span>
-                <h2 class="section-title">Escolha o Seu Plano</h2>
-                <p class="section-subtitle">Acesso ilimitado a todo o conteúdo com servidor ultrarrápido.</p>
-            </div>
-
-            <div class="plans-grid">
-                <!-- Plano 1 Mês -->
-                <div class="plan-card">
-                    <div class="plan-badge-promo">PROMOÇÃO</div>
-                    <h3 class="plan-title">Plano Mensal</h3>
-                    <p class="plan-period">1 Mês de Acesso</p>
-                    <div class="plan-price">
-                        <span class="old-price">R$ 35,00</span>
-                        <div class="current-price">R$ 25<span class="cents">,00</span></div>
-                    </div>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Canais em 4K e Full HD</li>
-                        <li><i class="fa-solid fa-check"></i> Filmes, Séries & Novelas</li>
-                        <li><i class="fa-solid fa-check"></i> Globoplay, Max, Disney+ e +</li>
-                        <li><i class="fa-solid fa-check"></i> Futebol ao vivo com IA</li>
-                        <li><i class="fa-solid fa-check"></i> Suporte Prioritário</li>
-                    </ul>
-                    <a href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Mensal%20de%20R$%2025,00" target="_blank" class="btn btn-outline full-width">Assinar Agora</a>
-                </div>
-
-                <!-- Plano 6 Meses -->
-                <div class="plan-card featured">
-                    <div class="plan-badge">MAIS POPULAR</div>
-                    <h3 class="plan-title">Plano Semestral</h3>
-                    <p class="plan-period">6 Meses de Acesso</p>
-                    <div class="plan-price">
-                        <div class="current-price">R$ 90<span class="cents">,00</span></div>
-                        <span class="savings">Economize R$ 60</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Canais em 4K e Full HD</li>
-                        <li><i class="fa-solid fa-check"></i> Filmes, Séries & Novelas</li>
-                        <li><i class="fa-solid fa-check"></i> Globoplay, Max, Disney+ e +</li>
-                        <li><i class="fa-solid fa-check"></i> Futebol ao vivo com IA</li>
-                        <li><i class="fa-solid fa-check"></i> Suporte Prioritário 24/7</li>
-                    </ul>
-                    <a href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Semestral%20de%20R$%2090,00" target="_blank" class="btn btn-neon full-width">Assinar Agora</a>
-                </div>
-
-                <!-- Plano 1 Ano -->
-                <div class="plan-card">
-                    <div class="plan-badge-promo">MELHOR CUSTO-BENEFÍCIO</div>
-                    <h3 class="plan-title">Plano Anual</h3>
-                    <p class="plan-period">12 Meses de Acesso</p>
-                    <div class="plan-price">
-                        <div class="current-price">R$ 169<span class="cents">,90</span></div>
-                        <span class="savings">Apenas R$ 14,15 por mês</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Todos os benefícios desbloqueados</li>
-                        <li><i class="fa-solid fa-check"></i> Maior estabilidade garantida</li>
-                        <li><i class="fa-solid fa-check"></i> Acesso em múltiplos dispositivos</li>
-                        <li><i class="fa-solid fa-check"></i> Atualizações automáticas de catálogo</li>
-                        <li><i class="fa-solid fa-check"></i> Atendimento VIP WhatsApp</li>
-                    </ul>
-                    <a href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Anual%20de%20R$%20169,90" target="_blank" class="btn btn-outline full-width">Assinar Agora</a>
-                </div>
-            </div>
+    <!-- Jogos AO VIVO (Integração de dados dinâmica via JS) -->
+    <section id="jogos" class="matches-section">
+        <div class="section-title">
+            <h2><i class="fas fa-futbol"></i> Programação dos Jogos do Dia</h2>
+            <p>Atualizado automaticamente para indicar os jogos transmitidos nas plataformas</p>
+        </div>
+        
+        <div class="matches-container" id="matchesContainer">
+            <!-- Os jogos serão inseridos via JavaScript -->
         </div>
     </section>
 
-    <!-- Seção IA: Jogos de Futebol de Hoje -->
-    <section id="futebol" class="football-ai">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag"><i class="fa-solid fa-robot"></i> Inteligência Artificial</span>
-                <h2 class="section-title">Jogos de Hoje & Onde Assistir</h2>
-                <p id="ai-status" class="ai-status-text">Atualizando partidas via IA...</p>
+    <!-- Tabela de Preços -->
+    <section id="planos" class="pricing-section">
+        <h2>Escolha o Seu Plano</h2>
+        <div class="pricing-grid">
+            
+            <!-- Plano Mensal -->
+            <div class="price-card">
+                <h3>Mensal</h3>
+                <div class="price">R$ 35,00 <span>/mês</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Canais Ao Vivo</li>
+                    <li><i class="fas fa-check"></i> Filmes e Séries</li>
+                    <li><i class="fas fa-check"></i> Qualidade Full HD / 4K</li>
+                    <li><i class="fas fa-check"></i> Suporte WhatsApp</li>
+                </ul>
+                <a href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Mensal%20(R$35,00)" target="_blank" class="btn-card">Assinar Plano</a>
             </div>
 
-            <div id="matches-grid" class="matches-grid">
-                <!-- Inserido dinamicamente via JavaScript -->
+            <!-- Plano Semestral (Destaque) -->
+            <div class="price-card featured">
+                <div class="badge">Mais Popular</div>
+                <h3>Semestral</h3>
+                <div class="price">R$ 120,00 <span>/6 meses</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Todos os benefícios do Mensal</li>
+                    <li><i class="fas fa-check"></i> Economia de R$ 90,00</li>
+                    <li><i class="fas fa-check"></i> Acesso em múltiplos dispositivos</li>
+                    <li><i class="fas fa-check"></i> Suporte Prioritário</li>
+                </ul>
+                <a href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Semestral%20(R$120,00)" target="_blank" class="btn-card featured-btn">Assinar Plano</a>
             </div>
+
+            <!-- Plano Anual -->
+            <div class="price-card">
+                <h3>Anual</h3>
+                <div class="price">R$ 170,00 <span>/ano</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Todos os benefícios do Semestral</li>
+                    <li><i class="fas fa-check"></i> Máxima Economia</li>
+                    <li><i class="fas fa-check"></i> Acesso Sem Interrupções</li>
+                    <li><i class="fas fa-check"></i> Suporte VIP 24/7</li>
+                </ul>
+                <a href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Anual%20(R$170,00)" target="_blank" class="btn-card">Assinar Plano</a>
+            </div>
+
         </div>
     </section>
 
-    <!-- Plataformas Integradas -->
-    <section id="plataformas" class="platforms">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Streaming Hub</span>
-                <h2 class="section-title">Plataformas Inclusas</h2>
-            </div>
-
-            <div class="platforms-grid">
-                <div class="platform-card">
-                    <i class="fa-solid fa-circle-play" style="color: #FF0000;"></i>
-                    <span>Globoplay</span>
-                </div>
-                <div class="platform-card">
-                    <i class="fa-solid fa-clapperboard" style="color: #00D2FF;"></i>
-                    <span>Max (HBO)</span>
-                </div>
-                <div class="platform-card">
-                    <i class="fa-solid fa-star" style="color: #0066FF;"></i>
-                    <span>Disney+ / Star+</span>
-                </div>
-                <div class="platform-card">
-                    <i class="fa-solid fa-mountain" style="color: #0088FF;"></i>
-                    <span>Paramount+</span>
-                </div>
-                <div class="platform-card">
-                    <i class="fa-solid fa-ticket" style="color: #FF3300;"></i>
-                    <span>Telecine</span>
-                </div>
-                <div class="platform-card">
-                    <i class="fa-brands fa-apple" style="color: #FFFFFF;"></i>
-                    <span>Apple TV+</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Catálogo em Destaque HD -->
-    <section id="catalogo" class="catalog">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Qualidade Impecável</span>
-                <h2 class="section-title">Conteúdo em Alta Definição</h2>
-            </div>
-
-            <div class="catalog-grid">
-                <div class="catalog-card">
-                    <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1000&q=80" alt="Premiere e SporTV Ao Vivo HD">
-                    <div class="catalog-tag">Esportes Ao Vivo</div>
-                    <h3>Premiere, SporTV & ESPN</h3>
-                </div>
-                <div class="catalog-card">
-                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80" alt="Cinema HD">
-                    <div class="catalog-tag">Filmes Blockbuster</div>
-                    <h3>Sessão Telecine & Max</h3>
-                </div>
-                <div class="catalog-card">
-                    <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=1000&q=80" alt="Séries HD">
-                    <div class="catalog-tag">Séries Exclusivas</div>
-                    <h3>Paramount+ & Apple TV+</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Botão Flutuante do WhatsApp -->
-    <a href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20mais%20informa%C3%A7%C3%B5es." class="whatsapp-float" target="_blank" title="Falar no WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
+    <!-- WhatsApp Flutuante -->
+    <a href="https://wa.me/5561981389486?text=Ol%C3%A1%21%20Vim%20pelo%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
     </a>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Mega Canais. Todos os direitos reservados.</p>
-        </div>
+    <footer>
+        <p>&copy; 2026 Mega Canais. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Script de Lógica Interna -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            async function carregarJogosComBandeiras() {
-                const matchesGrid = document.getElementById('matches-grid');
-                const statusText = document.getElementById('ai-status');
-
-                // Dados de jogos com imagens SVG de escudos diretamente do Wikimedia
-                const jogosHoje = [
-                    {
-                        liga: "UEFA Champions League",
-                        timeA: "Real Madrid",
-                        flagA: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg",
-                        timeB: "Man. City",
-                        flagB: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
-                        hora: "16:00",
-                        canal: "Max (HBO) / TNT"
-                    },
-                    {
-                        liga: "Brasileirão Série A",
-                        timeA: "Flamengo",
-                        flagA: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Flamengo_braz_logo.svg",
-                        timeB: "Palmeiras",
-                        flagB: "https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg",
-                        hora: "21:30",
-                        canal: "Globo / Premiere"
-                    },
-                    {
-                        liga: "Premier League",
-                        timeA: "Arsenal",
-                        flagA: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
-                        timeB: "Liverpool",
-                        flagB: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
-                        hora: "13:30",
-                        canal: "Star+ / ESPN"
-                    },
-                    {
-                        liga: "Copa Libertadores",
-                        timeA: "River Plate",
-                        flagA: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Escudo_del_C_A_River_Plate.svg",
-                        timeB: "Boca Juniors",
-                        flagB: "https://upload.wikimedia.org/wikipedia/commons/4/41/C.A._Boca_Juniors_logo.svg",
-                        hora: "19:00",
-                        canal: "Paramount+ / Star+"
-                    }
-                ];
-
-                try {
-                    statusText.innerHTML = `<i class="fa-solid fa-check-circle"></i> Atualizado via IA hoje às ${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
-                    matchesGrid.innerHTML = '';
-
-                    jogosHoje.forEach(jogo => {
-                        const card = document.createElement('div');
-                        card.className = 'match-card';
-                        card.innerHTML = `
-                            <div class="match-header">
-                                <span class="match-league">${jogo.liga}</span>
-                                <span class="match-time"><i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> ${jogo.hora}</span>
-                            </div>
-                            
-                            <div class="match-teams-wrapper">
-                                <div class="team-box">
-                                    <img src="${jogo.flagA}" alt="${jogo.timeA}" class="team-flag">
-                                    <span>${jogo.timeA}</span>
-                                </div>
-                                
-                                <span class="match-vs">VS</span>
-                                
-                                <div class="team-box team-b">
-                                    <span>${jogo.timeB}</span>
-                                    <img src="${jogo.flagB}" alt="${jogo.timeB}" class="team-flag">
-                                </div>
-                            </div>
-
-                            <div class="match-channel">
-                                <i class="fa-solid fa-tv"></i> Transmissão: <strong>${jogo.canal}</strong>
-                            </div>
-                        `;
-                        matchesGrid.appendChild(card);
-                    });
-
-                } catch (error) {
-                    statusText.innerText = "Erro ao carregar a tabela de jogos.";
-                }
-            }
-
-            carregarJogosComBandeiras();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
