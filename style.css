@@ -1,285 +1,183 @@
+/* RESET E CONFIGURAÇÕES GERAIS */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #080c14;
+    background-color: #0f1015;
     color: #ffffff;
-    background-image: 
-        radial-gradient(circle at 50% 10%, rgba(0, 225, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 60%, rgba(255, 0, 128, 0.1) 0%, transparent 40%);
-    background-attachment: fixed;
+    line-height: 1.6;
 }
 
-/* NAVBAR */
-.navbar {
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* NAVEGAÇÃO / CABEÇALHO */
+header {
+    background-color: #181a20;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 5%;
-    background: rgba(10, 15, 26, 0.85);
-    backdrop-filter: blur(10px);
-    position: fixed;
+    padding: 1rem 5%;
+    position: sticky;
     top: 0;
-    width: 100%;
     z-index: 1000;
-    border-bottom: 1px solid rgba(0, 225, 255, 0.2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
-.logo-container {
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e50914;
+}
+
+nav ul {
     display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo-img {
-    height: 40px;
-    border-radius: 8px;
-}
-
-.logo-text {
-    font-size: 1.4rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #00f0ff, #7000ff, #ff007f);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.navbar nav a {
-    color: #a0aec0;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.95rem;
-    transition: 0.3s;
-}
-
-.navbar nav a:hover {
-    color: #00f0ff;
-}
-
-/* HERO */
-.hero {
-    padding: 140px 5% 60px;
-    text-align: center;
-}
-
-.glow-text {
-    font-size: 2.8rem;
-    margin-bottom: 15px;
-    background: linear-gradient(180deg, #ffffff, #00f0ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.stats-grid {
-    display: flex;
-    justify-content: center;
+    list-style: none;
     gap: 20px;
-    margin-top: 40px;
-    flex-wrap: wrap;
 }
 
-.stat-card {
-    background: rgba(18, 25, 41, 0.7);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    padding: 20px 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
-    min-width: 180px;
+nav a {
+    color: #cccccc;
+    transition: color 0.3s;
 }
 
-.stat-card h3 {
-    font-size: 1.8rem;
-    color: #00f0ff;
+nav a:hover {
+    color: #ffffff;
 }
 
-/* SECTIONS */
-.section-container {
-    padding: 60px 5%;
-    max-width: 1200px;
+/* HERO SECTION (DESTAQUE PRINCIPAL) */
+.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(180deg, #181a20 0%, #0f1015 100%);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #b3b3b3;
+    max-width: 600px;
     margin: 0 auto;
 }
 
-.section-header {
+/* CARDS DE ESTATÍSTICAS / RECURSOS */
+.features {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 2rem 5%;
+}
+
+.feature-card {
+    background-color: #1a1d24;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    width: 250px;
+    border: 1px solid #2a2e39;
+}
+
+.feature-card h2 {
+    color: #e50914;
+    font-size: 2rem;
+}
+
+/* SEÇÃO JOGOS DE HOJE */
+.games-section {
+    background-color: #14161d;
+    margin: 2rem 5%;
+    padding: 2rem;
+    border-radius: 10px;
+    border-left: 4px solid #e50914;
+}
+
+.games-section h2 {
+    margin-bottom: 0.5rem;
 }
 
 .badge-ia {
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-
-/* CARDS DE JOGOS */
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.game-card {
-    background: rgba(18, 25, 41, 0.8);
-    border: 1px solid rgba(255, 0, 128, 0.3);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    position: relative;
-    overflow: hidden;
-}
-
-.game-league {
-    font-size: 0.8rem;
-    color: #8899a6;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    display: block;
-}
-
-.teams-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.team {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 40%;
-}
-
-.team img {
-    width: 45px;
-    height: 45px;
-    object-fit: contain;
-    margin-bottom: 8px;
-}
-
-.team-name {
-    font-size: 0.9rem;
-    text-align: center;
-    font-weight: 600;
-}
-
-.vs-info {
-    text-align: center;
-}
-
-.game-time {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #00f0ff;
-}
-
-.channel-tag {
-    background: rgba(0, 240, 255, 0.1);
-    color: #00f0ff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
     display: inline-block;
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    background-color: #2b1055;
+    color: #a855f7;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
 }
 
-/* PLANOS */
+/* PLANOS E PREÇOS */
+.plans {
+    padding: 3rem 5%;
+    text-align: center;
+}
+
 .plans-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 2rem;
 }
 
 .plan-card {
-    background: rgba(18, 25, 41, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 30px;
-    position: relative;
-    text-align: center;
+    background-color: #1a1d24;
+    border: 1px solid #2a2e39;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 300px;
+    transition: transform 0.3s;
 }
 
-.plan-card.popular {
-    border: 2px solid #00f0ff;
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+.plan-card:hover {
+    transform: translateY(-5px);
+    border-color: #e50914;
 }
 
-.tag-popular {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, #00f0ff, #7000ff);
-    padding: 4px 15px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-
-.price {
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin: 15px 0;
+.btn-buy {
+    display: inline-block;
+    background-color: #e50914;
     color: #ffffff;
-}
-
-.price span {
-    font-size: 0.9rem;
-    color: #a0aec0;
-}
-
-.plan-card ul {
-    list-style: none;
-    text-align: left;
-    margin: 20px 0;
-}
-
-.plan-card li {
-    margin-bottom: 10px;
-    color: #cbd5e0;
-    font-size: 0.9rem;
-}
-
-.btn-plan {
-    display: block;
-    padding: 12px;
-    background: linear-gradient(90deg, #00c853, #b2ff59);
-    color: #000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 1.5rem;
     font-weight: bold;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.3s;
+    transition: background-color 0.3s;
 }
 
-.btn-plan:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 200, 83, 0.4);
+.btn-buy:hover {
+    background-color: #b80710;
 }
 
-/* FOOTER */
-footer {
-    padding: 40px 5%;
-    text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    background: #05080f;
-}
+/* RESPONSIVIDADE PARA CELULARES */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
 
-.footer-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
+    .hero h1 {
+        font-size: 1.8rem;
+    }
 
-.footer-logo img {
-    height: 35px;
+    .features, .plans-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plan-card, .feature-card {
+        width: 100%;
+        max-width: 350px;
+    }
 }
