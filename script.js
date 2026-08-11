@@ -1,721 +1,274 @@
-/* ==========================================================
-   MEGA CANAIS
-   Front-end
-========================================================== */
+/*
+  MEGA CANAIS — JavaScript do front-end
+  ----------------------------------------------------
+  Para jogos reais, o navegador consulta /api/jogos.
+  O servidor deve guardar as chaves da API esportiva/IA.
+  Nunca coloque chaves privadas diretamente neste arquivo.
+*/
 
+const CONFIG = {
+  API_URL: "/api/jogos",
 
-/* ================= HEADER ================= */
+  // Troque pelo seu número comercial, somente dígitos e código do país.
+  WHATSAPP_NUMBER: "5500000000000",
 
-const header =
-    document.getElementById("header");
+  // Se o backend estiver indisponível, usamos dados demonstrativos.
+  DEMO_MODE: true
+};
 
+const state = {
+  games: [],
+  filter: "all"
+};
 
-window.addEventListener("scroll", () => {
+const $ = (selector) => document.querySelector(selector);
 
-    if (window.scrollY > 30) {
-
-        header.classList.add("scrolled");
-
-    } else {
-
-        header.classList.remove("scrolled");
-
-    }
-
+document.addEventListener("DOMContentLoaded", () => {
+  $("#year").textContent = new Date().getFullYear();
+  setBrazilDate();
+  setupMenu();
+  setupFilters();
+  setupPlanButtons();
+  setupWhatsApp();
+  loadGames();
 });
 
+function setupMenu() {
+  const toggle = $("#menuToggle");
+  const nav = $("#nav");
+  toggle?.addEventListener("click", () => {
+    nav.classList.toggle("open");
+    toggle.innerHTML = nav.classList.contains("open")
+      ? '<i class="fa-solid fa-xmark"></i>'
+      : '<i class="fa-solid fa-bars"></i>';
+  });
+  nav?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
+}
 
-/* ================= MENU MOBILE ================= */
+function setupFilters() {
+  $("#filters")?.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-filter]");
+    if (!button) return;
 
-const menuButton =
-    document.getElementById("menuButton");
+    document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+    state.filter = button.dataset.filter;
+    renderGames();
+  });
+}
 
-const mobileMenu =
-    document.getElementById("mobileMenu");
+function setupPlanButtons() {
+  document.querySelectorAll(".plan-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      const plan = button.dataset.plan || "Plano Mega Canais";
+      const message = `Olá! Vim pelo site Mega Canais e quero informações sobre o ${plan}.`;
+      const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      button.href = url;
+      button.target = "_blank";
+      button.rel = "noopener";
+    });
+  });
+}
 
+function setupWhatsApp() {
+  const button = $("#whatsappBtn");
+  if (!button) return;
+  const message = "Olá! Vim pelo site Mega Canais e gostaria de saber mais sobre os planos.";
+  button.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
 
-menuButton.addEventListener("click", () => {
+function setBrazilDate() {
+  const now = new Date();
+  const date = new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  }).format(now);
 
-    mobileMenu.classList.toggle("active");
+  $("#heroDate").textContent = date.slice(0, 5);
+  $("#gamesDate").textContent = `Hoje • ${date}`;
+}
 
-    document.body.classList.toggle("menu-open");
+async function loadGames() {
+  showLoading();
 
-    const icon =
-        menuButton.querySelector("i");
+  try {
+    const response = await fetch(`${CONFIG.API_URL}?t=${Date.now()}`, {
+      headers: { "Accept": "application/json" }
+    });
 
+    if (!response.ok) throw new Error(`Servidor respondeu ${response.status}`);
 
-    if (
-        mobileMenu.classList.contains("active")
-    ) {
+    const data = await response.json();
+    state.games = Array.isArray(data) ? data : (data.games || []);
 
-        icon.className =
-            "fa-solid fa-xmark";
+    setAIStatus(true, `${state.games.length} jogos recebidos do servidor.`);
+  } catch (error) {
+    console.warn("Mega Canais: backend indisponível.", error);
 
+    if (CONFIG.DEMO_MODE) {
+      state.games = demoGames();
+      setAIStatus(false, "Modo demonstração. Conecte /api/jogos para dados reais.");
     } else {
-
-        icon.className =
-            "fa-solid fa-bars";
-
+      state.games = [];
+      setAIStatus(false, "Não foi possível carregar a programação.");
     }
+  }
 
-});
-
-
-document
-    .querySelectorAll(".mobile-menu a")
-    .forEach(link => {
-
-        link.addEventListener("click", () => {
-
-            mobileMenu.classList.remove("active");
-
-            document.body.classList.remove(
-                "menu-open"
-            );
-
-            menuButton.querySelector("i").className =
-                "fa-solid fa-bars";
-
-        });
-
-    });
-
-
-/* ================= DATA DOS JOGOS ================= */
-
-/*
-    IMPORTANTE:
-
-    Estes dados são apenas exemplos para
-    demonstrar o funcionamento do layout.
-
-    NÃO são jogos reais.
-
-    Para colocar jogos reais automaticamente,
-    substitua getGames() por uma chamada para
-    uma API esportiva através do seu backend.
-*/
-
-
-const exampleGames = [
-
-    {
-        id: 1,
-
-        competition:
-            "Exemplo — Campeonato",
-
-        home:
-            "Time A",
-
-        away:
-            "Time B",
-
-        homeLogo:
-            "assets/team-a.png",
-
-        awayLogo:
-            "assets/team-b.png",
-
-        time:
-            "16:00",
-
-        status:
-            "upcoming",
-
-        broadcast:
-            "Transmissão não informada"
-
-    },
-
-
-    {
-        id: 2,
-
-        competition:
-            "Exemplo — Futebol",
-
-        home:
-            "Time C",
-
-        away:
-            "Time D",
-
-        homeLogo:
-            "assets/team-c.png",
-
-        awayLogo:
-            "assets/team-d.png",
-
-        time:
-            "18:30",
-
-        status:
-            "upcoming",
-
-        broadcast:
-            "Transmissão não informada"
-
-    },
-
-
-    {
-        id: 3,
-
-        competition:
-            "Exemplo — Campeonato",
-
-        home:
-            "Time E",
-
-        away:
-            "Time F",
-
-        homeLogo:
-            "assets/team-e.png",
-
-        awayLogo:
-            "assets/team-f.png",
-
-        time:
-            "21:00",
-
-        status:
-            "live",
-
-        broadcast:
-            "Transmissão não informada"
-
-    }
-
-];
-
-
-/* ================= CONTAINER ================= */
-
-const gamesContainer =
-    document.getElementById(
-        "gamesContainer"
-    );
-
-
-/* ================= RENDER ================= */
-
-function renderGames(
-    games = exampleGames,
-    filter = "all"
-) {
-
-    gamesContainer.innerHTML = "";
-
-
-    const filtered =
-        games.filter(game => {
-
-            if (filter === "all") {
-                return true;
-            }
-
-            return game.status === filter;
-
-        });
-
-
-    if (!filtered.length) {
-
-        gamesContainer.innerHTML = `
-
-            <div class="no-games">
-
-                <i class="fa-solid fa-futbol"></i>
-
-                <h3>
-                    Nenhum jogo encontrado
-                </h3>
-
-                <p>
-                    Não existem partidas
-                    para este filtro.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    filtered.forEach(game => {
-
-        const card =
-            document.createElement("article");
-
-
-        card.className =
-            "game";
-
-
-        const statusText =
-            game.status === "live"
-                ? "AO VIVO"
-                : "PRÓXIMO";
-
-
-        const statusClass =
-            game.status === "live"
-                ? "live"
-                : "";
-
-
-        card.innerHTML = `
-
-            <div class="game-header">
-
-                <span class="competition">
-                    ${escapeHTML(
-                        game.competition
-                    )}
-                </span>
-
-                <span
-                    class="game-status ${statusClass}"
-                >
-                    ${statusText}
-                </span>
-
-            </div>
-
-
-            <div class="teams">
-
-                <div class="team">
-
-                    <div class="team-badge">
-
-                        <img
-                            src="${game.homeLogo}"
-                            alt="${escapeHTML(
-                                game.home
-                            )}"
-                            onerror="
-                                this.src =
-                                'https://dummyimage.com/100x100/14141c/ffffff&text=⚽';
-                            "
-                        >
-
-                    </div>
-
-                    <span class="team-name">
-                        ${escapeHTML(
-                            game.home
-                        )}
-                    </span>
-
-                </div>
-
-
-                <div class="game-time">
-
-                    <strong>
-                        ${game.time}
-                    </strong>
-
-                    <small>
-                        HORÁRIO
-                    </small>
-
-                </div>
-
-
-                <div class="team">
-
-                    <div class="team-badge">
-
-                        <img
-                            src="${game.awayLogo}"
-                            alt="${escapeHTML(
-                                game.away
-                            )}"
-                            onerror="
-                                this.src =
-                                'https://dummyimage.com/100x100/14141c/ffffff&text=⚽';
-                            "
-                        >
-
-                    </div>
-
-                    <span class="team-name">
-                        ${escapeHTML(
-                            game.away
-                        )}
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="broadcast">
-
-                <i class="fa-solid fa-tv"></i>
-
-                <span>
-                    ${escapeHTML(
-                        game.broadcast
-                    )}
-                </span>
-
-            </div>
-
-        `;
-
-
-        gamesContainer.appendChild(card);
-
-    });
-
+  renderGames();
+  renderHeroMatch();
 }
 
+$("#refreshGames")?.addEventListener("click", loadGames);
 
-/* ================= FILTROS ================= */
+function setAIStatus(online, message) {
+  const status = $("#aiStatus");
+  const text = $("#aiMessage");
+  if (text) text.textContent = message;
 
-let currentFilter =
-    "all";
-
-
-document
-    .querySelectorAll(".filter")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelectorAll(".filter")
-                    .forEach(btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                    );
-
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                currentFilter =
-                    button.dataset.filter;
-
-
-                renderGames(
-                    currentGames,
-                    currentFilter
-                );
-
-            }
-        );
-
-    });
-
-
-/* ================= ESTATÍSTICAS ================= */
-
-function updateStats(games) {
-
-    const total =
-        games.length;
-
-
-    const live =
-        games.filter(
-            game =>
-                game.status === "live"
-        ).length;
-
-
-    const upcoming =
-        games.filter(
-            game =>
-                game.status === "upcoming"
-        ).length;
-
-
-    document.getElementById(
-        "totalGames"
-    ).textContent = total;
-
-
-    document.getElementById(
-        "liveGames"
-    ).textContent = live;
-
-
-    document.getElementById(
-        "nextGames"
-    ).textContent = upcoming;
-
+  if (status) {
+    status.innerHTML = online
+      ? "<span></span> IA CONECTADA"
+      : "<span></span> MODO DEMO";
+    status.style.color = online ? "var(--lime)" : "var(--cyan)";
+  }
 }
 
-
-/* ================= JOGOS ATUAIS ================= */
-
-let currentGames =
-    exampleGames;
-
-
-/* ================= API ================= */
-
-/*
-    FUTURO:
-
-    Aqui será feita a integração com
-    sua API de futebol.
-
-    Exemplo:
-
-    async function getGames() {
-
-        const response =
-            await fetch(
-                "/api/games"
-            );
-
-        return await response.json();
-
-    }
-
-    O navegador NÃO deve receber
-    diretamente uma chave secreta
-    da API.
-
-    A chave deve ficar no backend.
-*/
-
-
-async function getGames() {
-
-    /*
-        Enquanto não existe API conectada,
-        usamos os dados de demonstração.
-    */
-
-    return exampleGames;
-
+function showLoading() {
+  $("#gamesGrid").innerHTML = `
+    <div class="loading-card">
+      <div class="loader"></div>
+      <p>Buscando jogos...</p>
+    </div>`;
 }
 
+function renderGames() {
+  const grid = $("#gamesGrid");
+  let games = [...state.games];
 
-/* ================= ATUALIZAÇÃO ================= */
+  if (state.filter === "futebol") {
+    games = games.filter(g => (g.type || "futebol").toLowerCase() === "futebol");
+  }
 
-async function updateGames() {
+  if (state.filter === "ao-vivo") {
+    games = games.filter(g => Boolean(g.live));
+  }
 
-    try {
+  games.sort((a, b) => {
+    const liveA = a.live ? 0 : 1;
+    const liveB = b.live ? 0 : 1;
+    return liveA - liveB || (a.timestamp || 0) - (b.timestamp || 0);
+  });
 
-        const games =
-            await getGames();
+  if (!games.length) {
+    grid.innerHTML = `
+      <div class="loading-card">
+        <i class="fa-regular fa-calendar-xmark" style="font-size:25px;color:var(--cyan)"></i>
+        <p>Nenhum jogo encontrado para este filtro.</p>
+      </div>`;
+    return;
+  }
 
-
-        currentGames =
-            games;
-
-
-        updateStats(games);
-
-
-        renderGames(
-            games,
-            currentFilter
-        );
-
-
-        updateLastUpdate();
-
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao atualizar jogos:",
-            error
-        );
-
-    }
-
+  grid.innerHTML = games.map(gameCard).join("");
 }
 
+function gameCard(game) {
+  const homeLogo = safeImage(game.homeLogo);
+  const awayLogo = safeImage(game.awayLogo);
+  const home = escapeHTML(game.home || "Mandante");
+  const away = escapeHTML(game.away || "Visitante");
+  const league = escapeHTML(game.league || "Futebol");
+  const time = escapeHTML(game.time || "--:--");
+  const status = escapeHTML(game.statusText || (game.live ? "Ao vivo" : "Hoje"));
+  const live = Boolean(game.live);
 
-function updateLastUpdate() {
+  return `
+    <article class="game-card">
+      <div class="game-top">
+        <span>${league}</span>
+        <span class="game-status ${live ? "live" : ""}">
+          ${live ? "● AO VIVO" : status}
+        </span>
+      </div>
 
-    const element =
-        document.getElementById(
-            "lastUpdate"
-        );
+      <div class="game-main">
+        <div class="team">
+          <img src="${homeLogo}" alt="${home}" loading="lazy"
+               onerror="this.onerror=null;this.src='assets/team-placeholder.svg'">
+          <b>${home}</b>
+        </div>
 
+        <div class="match-center">
+          <strong>${time}</strong>
+          <small>VS</small>
+        </div>
 
-    const now =
-        new Date();
+        <div class="team">
+          <img src="${awayLogo}" alt="${away}" loading="lazy"
+               onerror="this.onerror=null;this.src='assets/team-placeholder.svg'">
+          <b>${away}</b>
+        </div>
+      </div>
 
-
-    const time =
-        now.toLocaleTimeString(
-            "pt-BR",
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
-
-
-    element.textContent =
-        `Última atualização: ${time}`;
-
+      <div class="game-bottom">
+        <span><i class="fa-solid fa-location-dot"></i> ${escapeHTML(game.country || "Mundo")}</span>
+        <span>${escapeHTML(game.channel || "Transmissão a confirmar")}</span>
+      </div>
+    </article>`;
 }
 
+function renderHeroMatch() {
+  const target = $("#heroMatch");
+  if (!target || !state.games.length) return;
 
-/*
-    Atualiza ao abrir
-*/
-
-updateGames();
-
-
-/*
-    Atualiza a cada 5 minutos.
-
-    Quando a API estiver conectada,
-    os jogos serão buscados novamente.
-*/
-
-setInterval(
-    updateGames,
-    5 * 60 * 1000
-);
-
-
-/* ================= FAQ ================= */
-
-document
-    .querySelectorAll(".faq-question")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const faq =
-                    button.closest(".faq");
-
-
-                document
-                    .querySelectorAll(".faq")
-                    .forEach(item => {
-
-                        if (item !== faq) {
-
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        }
-
-                    });
-
-
-                faq.classList.toggle(
-                    "active"
-                );
-
-            }
-        );
-
-    });
-
-
-/* ================= DATA ================= */
-
-function updateDate() {
-
-    const date =
-        new Date();
-
-
-    document.getElementById(
-        "currentDay"
-    ).textContent =
-        String(
-            date.getDate()
-        ).padStart(2, "0");
-
-
-    const months = [
-        "JAN",
-        "FEV",
-        "MAR",
-        "ABR",
-        "MAI",
-        "JUN",
-        "JUL",
-        "AGO",
-        "SET",
-        "OUT",
-        "NOV",
-        "DEZ"
-    ];
-
-
-    document.getElementById(
-        "currentMonth"
-    ).textContent =
-        months[
-            date.getMonth()
-        ];
-
-
-    document.getElementById(
-        "currentYear"
-    ).textContent =
-        date.getFullYear();
-
+  const game = state.games.find(g => g.live) || state.games[0];
+  target.innerHTML = `
+    <div class="club">
+      <img src="${safeImage(game.homeLogo)}" alt="${escapeHTML(game.home || "")}">
+      <b>${escapeHTML(shortName(game.home || "Mandante"))}</b>
+    </div>
+    <strong>${escapeHTML(game.time || "VS")}</strong>
+    <div class="club">
+      <img src="${safeImage(game.awayLogo)}" alt="${escapeHTML(game.away || "")}">
+      <b>${escapeHTML(shortName(game.away || "Visitante"))}</b>
+    </div>`;
 }
 
+function shortName(name) {
+  return name.length > 17 ? name.slice(0, 16) + "…" : name;
+}
 
-updateDate();
-
-
-/* ================= ANO ================= */
-
-document.getElementById(
-    "year"
-).textContent =
-    new Date().getFullYear();
-
-
-/* ================= ESCAPE HTML ================= */
+function safeImage(url) {
+  return /^https:\/\//i.test(String(url || ""))
+    ? url
+    : "assets/team-placeholder.svg";
+}
 
 function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
 
-    return String(value)
-        .replace(
-            /[&<>"']/g,
-            character => {
-
-                const entities = {
-
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
-
-                };
-
-                return entities[
-                    character
-                ];
-
-            }
-        );
-
+function demoGames() {
+  // Demonstração visual: substitua por /api/jogos em produção.
+  return [
+    {
+      id: 1, type: "futebol", league: "Exemplo • Futebol",
+      country: "Brasil", home: "Time da Casa", away: "Time Visitante",
+      time: "19:00", statusText: "Hoje", live: false,
+      homeLogo: "", awayLogo: "", channel: "Transmissão a confirmar"
+    },
+    {
+      id: 2, type: "futebol", league: "Exemplo • Campeonato",
+      country: "Mundo", home: "Equipe Azul", away: "Equipe Verde",
+      time: "21:30", statusText: "Hoje", live: false,
+      homeLogo: "", awayLogo: "", channel: "Transmissão a confirmar"
+    }
+  ];
 }
