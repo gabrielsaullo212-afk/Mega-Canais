@@ -1,445 +1,157 @@
-/* ==========================================================================
-   CONFIGURAÇÕES GERAIS E VARIÁVEIS DE DESIGN PREMIUM
-   ========================================================================== */
-:root {
-    --bg-main: #0a0b0e;
-    --bg-card: #12141d;
-    --bg-nav: rgba(18, 20, 29, 0.95);
-    --primary: #e50914;
-    --primary-hover: #b80710;
-    --accent: #8b5cf6;
-    --text-title: #ffffff;
-    --text-body: #a1a1aa;
-    --border-color: #27272a;
-    --radius: 12px;
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Canais - Entretenimento Ilimitado</title>
+    <!-- Fonte Google Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
-}
+    <!-- CABEÇALHO COM A SUA LOGOMARCA OFICIAL -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="brand-logo">
+                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img">
+            </a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#recursos">Recursos</a></li>
+                    <li><a href="#jogos">Jogos de Hoje</a></li>
+                    <li><a href="#planos">Planos</a></li>
+                    <li><a href="#contato" class="btn-gradient">Assinar Agora</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-body {
-    background-color: var(--bg-main);
-    color: var(--text-body);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
+    <!-- HERO SECTION CYBERPUNK / NEON -->
+    <section id="inicio" class="hero">
+        <div class="container hero-content">
+            <span class="badge-neon"><i class="fa-solid fa-bolt"></i> Painel Ultra HD / 4K Sem Travamentos</span>
+            <h1 class="gradient-text">Sua Plataforma de Entretenimento Ilimitado</h1>
+            <p>Assista aos seus canais ao vivo, filmes, séries e partidas de futebol com a melhor estabilidade e qualidade do mercado.</p>
+            
+            <div class="hero-buttons">
+                <a href="#planos" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Ver Planos e Preços</a>
+                <a href="#jogos" class="btn btn-secondary"><i class="fa-solid fa-gamepad"></i> Jogos de Hoje</a>
+            </div>
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+            <!-- CARDS DE ESTATÍSTICAS NAS CORES DA MARCA -->
+            <div class="stats-grid">
+                <div class="stat-card cyan">
+                    <i class="fa-solid fa-tv"></i>
+                    <h3>+1.900</h3>
+                    <p>Canais ao Vivo</p>
+                </div>
+                <div class="stat-card lime">
+                    <i class="fa-solid fa-film"></i>
+                    <h3>+30.000</h3>
+                    <p>Filmes</p>
+                </div>
+                <div class="stat-card magenta">
+                    <i class="fa-solid fa-clapperboard"></i>
+                    <h3>+16.000</h3>
+                    <p>Séries</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-/* REGRA DE SEGURANÇA PARA IMAGENS NUNCA VAZAREM DA TELA */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
+    <!-- SEÇÃO JOGOS DE HOJE (ATUALIZAÇÃO DE VERDADE COM DATA ATUAL) -->
+    <section id="jogos" class="games-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-futbol text-lime"></i> Jogos de Hoje - <span id="data-atual"></span></h2>
+                <span class="badge-ia"><i class="fa-solid fa-robot"></i> Programação Atualizada via IA</span>
+            </div>
+            <p class="section-desc">Confira os principais jogos transmitidos hoje na plataforma:</p>
 
-/* ==========================================================================
-   NAVEGAÇÃO (HEADER)
-   ========================================================================== */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: var(--bg-nav);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    z-index: 1000;
-    padding: 15px 0;
-}
+            <div id="games-list" class="games-grid">
+                <div class="loading-games">Carregando programação do dia...</div>
+            </div>
+        </div>
+    </section>
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    <!-- PLANOS E PREÇOS -->
+    <section id="planos" class="plans-section">
+        <div class="container">
+            <div class="section-header center">
+                <h2 class="gradient-text">Planos e Preços</h2>
+                <p>Liberação imediata no WhatsApp sem fidelidade.</p>
+            </div>
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--text-title);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+            <div class="plans-grid">
+                <!-- Plano Mensal -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3>Plano Mensal</h3>
+                        <div class="price">R$ 35<span>/mês</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check text-cyan"></i> +1.900 Canais ao Vivo</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> Filmes e Séries On Demand</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> Qualidade SD / HD / FHD / 4K</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> Guia EPG Atualizado</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> 1 Tela Simultânea</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-card">Assinar Mensal</a>
+                </div>
 
-.logo-icon {
-    color: var(--primary);
-}
+                <!-- Plano Trimestral (Destaque Neon) -->
+                <div class="plan-card featured">
+                    <div class="popular-tag">Mais Vendido</div>
+                    <div class="plan-header">
+                        <h3>Plano Trimestral</h3>
+                        <div class="price">R$ 85<span>/3 meses</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check text-lime"></i> Todos os recursos do Mensal</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> Economia de R$ 20,00</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> Suporte Prioritário</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> 2 Telas Simultâneas</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-gradient full-width">Assinar Trimestral</a>
+                </div>
 
-.logo span {
-    color: var(--primary);
-}
+                <!-- Plano Anual -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3>Plano Anual</h3>
+                        <div class="price">R$ 200<span>/ano</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check text-magenta"></i> Acesso VIP por 12 Meses</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> Maior Desconto da Plataforma</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> Suporte 24/7 Ativo</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> 2 Telas Simultâneas</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-card">Assinar Anual</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-.nav-menu ul {
-    display: flex;
-    list-style: none;
-    align-items: center;
-    gap: 25px;
-}
+    <!-- RODAPÉ -->
+    <footer id="contato" class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img-footer">
+                <p>A melhor experiência em transmissão digital e sinal estável.</p>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2026 Mega Canais. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
-.nav-menu a {
-    color: var(--text-body);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.nav-menu a:hover {
-    color: var(--text-title);
-}
-
-.btn-nav {
-    background-color: var(--primary);
-    color: #fff !important;
-    padding: 8px 18px;
-    border-radius: 6px;
-    font-weight: 600 !important;
-    transition: background 0.3s !important;
-}
-
-.btn-nav:hover {
-    background-color: var(--primary-hover);
-}
-
-/* ==========================================================================
-   HERO SECTION
-   ========================================================================== */
-.hero {
-    padding: 160px 0 80px 0;
-    background: radial-gradient(circle at top center, rgba(229, 9, 20, 0.15) 0%, transparent 60%);
-    text-align: center;
-}
-
-.badge-premium {
-    display: inline-block;
-    background: rgba(229, 9, 20, 0.1);
-    color: var(--primary);
-    border: 1px solid rgba(229, 9, 20, 0.3);
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    color: var(--text-title);
-    font-weight: 800;
-    max-width: 800px;
-    margin: 0 auto 20px auto;
-    line-height: 1.2;
-}
-
-.hero p {
-    font-size: 1.15rem;
-    max-width: 650px;
-    margin: 0 auto 35px auto;
-}
-
-.hero-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 60px;
-    flex-wrap: wrap;
-}
-
-/* BOTOES GERAIS */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: var(--primary);
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background-color: #27272a;
-    color: var(--text-title);
-}
-
-.btn-secondary:hover {
-    background-color: #3f3f46;
-}
-
-/* CARDS ESTATISTICAS */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    margin-top: 40px;
-}
-
-.stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 25px;
-    border-radius: var(--radius);
-    text-align: center;
-}
-
-.stat-card i {
-    font-size: 2rem;
-    color: var(--primary);
-    margin-bottom: 10px;
-}
-
-.stat-card h3 {
-    font-size: 1.8rem;
-    color: var(--text-title);
-}
-
-/* ==========================================================================
-   SEÇÃO JOGOS DE HOJE
-   ========================================================================== */
-.games-section {
-    padding: 80px 0;
-    background-color: #0d0e13;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.section-header.center {
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-}
-
-.section-header h2 {
-    font-size: 2rem;
-    color: var(--text-title);
-}
-
-.badge-ia {
-    background: rgba(139, 92, 246, 0.15);
-    color: var(--accent);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.section-desc {
-    margin-bottom: 30px;
-}
-
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.game-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.game-championship {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-}
-
-.game-teams {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.team {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: var(--text-title);
-}
-
-.versus {
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: var(--text-body);
-}
-
-.game-time {
-    font-size: 0.85rem;
-    color: var(--text-body);
-    border-top: 1px solid var(--border-color);
-    padding-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* ==========================================================================
-   SEÇÃO PLANOS
-   ========================================================================== */
-.plans-section {
-    padding: 80px 0;
-}
-
-.plans-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.plan-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 35px 25px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.plan-card.featured {
-    border-color: var(--primary);
-    box-shadow: 0 0 25px rgba(229, 9, 20, 0.2);
-}
-
-.popular-tag {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--primary);
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 20px;
-    text-transform: uppercase;
-}
-
-.plan-header h3 {
-    color: var(--text-title);
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-}
-
-.price {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--text-title);
-    margin-bottom: 20px;
-}
-
-.price span {
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--text-body);
-}
-
-.plan-features {
-    list-style: none;
-    margin-bottom: 30px;
-    flex-grow: 1;
-}
-
-.plan-features li {
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-}
-
-.plan-features i {
-    color: #22c55e;
-}
-
-.btn-card {
-    background: #27272a;
-    color: var(--text-title);
-    text-align: center;
-    justify-content: center;
-}
-
-.btn-card:hover {
-    background: #3f3f46;
-}
-
-.full-width {
-    width: 100%;
-    justify-content: center;
-}
-
-/* ==========================================================================
-   RODAPÉ
-   ========================================================================== */
-.footer {
-    border-top: 1px solid var(--border-color);
-    padding: 40px 0;
-    background: var(--bg-main);
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-/* RESPONSIVIDADE (CELULARES E TABLETS) */
-@media (max-width: 768px) {
-    .nav-menu {
-        display: none; /* Em atualizações futuras pode ser adicionado menu hambúrguer */
-    }
-    
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-    }
-}
+    <script src="./script.js"></script>
+</body>
+</html>
