@@ -12,14 +12,159 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Canais - Entretenimento Ilimitado</title>
+    <!-- Fonte Google Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
 <body>
 
     <!-- CABEÇALHO COM A SUA LOGOMARCA OFICIAL -->
     <header class="navbar">
         <div class="container nav-container">
             <a href="#" class="brand-logo">
-                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img">
+                <img src="d7115215-6969-4c2a-9e1b-69c37d83c784.jpg" alt="Mega Canais Logo" class="logo-img">
             </a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#recursos">Recursos</a></li>
+                    <li><a href="#jogos">Jogos de Hoje</a></li>
+                    <li><a href="#planos">Planos</a></li>
+                </ul>
+                <a href="#contato" class="gradient-btn nav-btn">Assinar Agora</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="hero-section">
+        <div class="container hero-container">
+            <div class="tag-badge">
+                <i class="fa-solid fa-bolt"></i> Painel Ultra HD / 4K Sem Travamentos
+            </div>
+            <h1 class="hero-title">
+                Sua Plataforma de <br>
+                <span class="gradient-text">Entretenimento Ilimitado</span>
+            </h1>
+            <p class="hero-description">
+                Assista aos seus canais ao vivo, filmes, séries e partidas de futebol com a melhor estabilidade e qualidade do mercado.
+            </p>
+            <div class="hero-buttons">
+                <a href="#planos" class="gradient-btn hero-btn">
+                    <i class="fa-solid fa-rocket"></i> Ver Planos e Preços
+                </a>
+                <a href="#jogos" class="outline-btn hero-btn">
+                    <i class="fa-solid fa-gamepad"></i> Jogos de Hoje
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARDS DE ESTATÍSTICAS / RECURSOS -->
+    <section id="recursos" class="stats-section">
+        <div class="container stats-container">
+            <div class="stat-card">
+                <div class="stat-icon icon-cyan">
+                    <i class="fa-solid fa-desktop"></i>
+                </div>
+                <h2 class="stat-number">+1.900</h2>
+                <p class="stat-label">Canais ao Vivo</p>
+            </div>
+            
+            <div class="stat-card active">
+                <div class="stat-icon icon-green">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+                <h2 class="stat-number">+30.000</h2>
+                <p class="stat-label">Filmes</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-pink">
+                    <i class="fa-solid fa-clapperboard"></i>
+                </div>
+                <h2 class="stat-number">+16.000</h2>
+                <p class="stat-label">Séries</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOGOS DE HOJE -->
+    <section id="jogos" class="games-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="title-wrapper">
+                    <i class="fa-solid fa-soccer-ball title-icon"></i>
+                    <h2>Jogos de Hoje -</h2>
+                    <span class="ia-badge"><i class="fa-solid fa-cloud"></i> Programação Atualizada via IA</span>
+                </div>
+                <p class="section-subtitle">Confira os principais jogos transmitidos hoje na plataforma:</p>
+            </div>
+
+            <div class="games-grid">
+                <!-- Card Jogo 1 -->
+                <div class="game-card">
+                    <span class="league-name cyan">BRASILEIRÃO - SÉRIE A</span>
+                    <div class="teams-wrapper">
+                        <span class="team-name">Flamengo</span>
+                        <span class="vs-badge">VS</span>
+                        <span class="team-name">Fluminense</span>
+                    </div>
+                    <div class="game-time">
+                        <i class="fa-regular fa-clock"></i> Hoje às 20:00
+                    </div>
+                </div>
+
+                <!-- Card Jogo 2 -->
+                <div class="game-card highlight">
+                    <span class="league-name cyan">UEFA CHAMPIONS LEAGUE</span>
+                    <div class="teams-wrapper">
+                        <span class="team-name">Real Madrid</span>
+                        <span class="vs-badge">VS</span>
+                        <span class="team-name">Manchester City</span>
+                    </div>
+                    <div class="game-time">
+                        <i class="fa-regular fa-clock"></i> Hoje às 16:00
+                    </div>
+                </div>
+
+                <!-- Card Jogo 3 -->
+                <div class="game-card">
+                    <span class="league-name cyan">COPA DO BRASIL</span>
+                    <div class="teams-wrapper">
+                        <span class="team-name">Palmeiras</span>
+                        <span class="vs-badge">VS</span>
+                        <span class="team-name">São Paulo</span>
+                    </div>
+                    <div class="game-time">
+                        <i class="fa-regular fa-clock"></i> Hoje às 21:30
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO PLANOS -->
+    <section id="planos" class="plans-section">
+        <div class="container">
+            <h2 class="section-title gradient-text text-center">Planos e Preços</h2>
+            <p class="text-center section-subtitle">Liberação imediata no WhatsApp sem fidelidade.</p>
+        </div>
+    </section>
+
+    <script src="./script.js"></script>
+</body>
+</html>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="#inicio">Início</a></li>
