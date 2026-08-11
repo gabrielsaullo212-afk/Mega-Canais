@@ -1,14 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #0b0e14;
+    background-color: #080b11;
     color: #ffffff;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 /* Header */
@@ -16,20 +19,31 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 8%;
-    background: rgba(11, 14, 20, 0.9);
+    padding: 15px 8%;
+    background: rgba(8, 11, 17, 0.95);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    font-size: 28px;
+    color: #00d2ff;
 }
 
 .logo h2 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
-    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .logo span {
@@ -43,7 +57,7 @@ nav ul {
 }
 
 nav a {
-    color: #fff;
+    color: #e0e0e0;
     text-decoration: none;
     font-weight: 500;
     transition: 0.3s;
@@ -54,69 +68,124 @@ nav a:hover {
 }
 
 .btn-whatsapp {
-    background-color: #25d366;
+    background: #25d366;
     color: #fff;
-    padding: 10px 20px;
+    padding: 10px 22px;
     border-radius: 50px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
     transition: 0.3s;
 }
 
 .btn-whatsapp:hover {
-    background-color: #1ebd56;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
 }
 
 /* Hero Section */
 .hero {
-    height: 100vh;
-    background: linear-gradient(180deg, rgba(11, 14, 20, 0.5) 0%, rgba(11, 14, 20, 1) 100%), url('capa.jpg') no-repeat center center/cover;
+    position: relative;
+    padding: 140px 8% 80px 8%;
+    min-height: 90vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 20px;
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-image-box {
+    flex: 1;
+    max-width: 480px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 35px rgba(0, 210, 255, 0.3);
+    border: 2px solid rgba(0, 210, 255, 0.4);
+}
+
+.hero-image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
 }
 
 .hero-content {
-    max-width: 800px;
-    margin-top: 60px;
+    flex: 1;
+}
+
+.badge-live {
+    background: rgba(255, 0, 85, 0.2);
+    color: #ff0055;
+    border: 1px solid #ff0055;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.badge-live i {
+    font-size: 8px;
+    vertical-align: middle;
+    margin-right: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
 }
 
 .hero-content h1 {
-    font-size: 48px;
+    font-size: 42px;
     font-weight: 800;
+    line-height: 1.2;
     margin-bottom: 20px;
-    text-shadow: 0 0 20px rgba(0,0,0,0.8);
+    background: linear-gradient(90deg, #ffffff, #00d2ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-content p {
-    font-size: 20px;
-    color: #ccc;
+    font-size: 18px;
+    color: #a0aec0;
     margin-bottom: 30px;
 }
 
 .hero-buttons {
     display: flex;
     gap: 15px;
-    justify-content: center;
 }
 
 .btn-primary, .btn-secondary {
-    padding: 12px 30px;
-    border-radius: 8px;
+    padding: 14px 28px;
+    border-radius: 10px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     transition: 0.3s;
 }
 
 .btn-primary {
-    background: linear-gradient(45deg, #00d2ff, #0072ff);
+    background: linear-gradient(45deg, #00d2ff, #0055ff);
     color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 210, 255, 0.4);
 }
 
 .btn-secondary {
@@ -125,40 +194,71 @@ nav a:hover {
 }
 
 .btn-primary:hover, .btn-secondary:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px);
 }
 
 /* Plataformas */
 .platforms-section {
-    padding: 60px 8%;
+    padding: 70px 8%;
     text-align: center;
-    background: #111622;
+    background: #0d121d;
+}
+
+.sub-title {
+    color: #8a99ad;
+    margin-bottom: 35px;
 }
 
 .platforms-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 15px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .platform-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 20px 10px;
-    border-radius: 10px;
-    font-weight: bold;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #131a29;
+    padding: 25px 15px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     transition: 0.3s;
 }
 
-.platform-card:hover {
-    border-color: #00d2ff;
-    transform: translateY(-5px);
+.platform-card i {
+    font-size: 32px;
 }
+
+.platform-card span {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.platform-card:hover {
+    transform: translateY(-8px);
+    border-color: #00d2ff;
+    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.2);
+}
+
+/* Cores das marcas */
+.netflix i { color: #E50914; }
+.globoplay i { color: #FF0000; }
+.paramount i { color: #0064FF; }
+.hbo i { color: #9933FF; }
+.telecine i { color: #FF0033; }
+.starplus i { color: #FF6600; }
+.appletv i { color: #FFFFFF; }
+.aovivo i { color: #00d2ff; }
 
 /* Jogos AO VIVO */
 .matches-section {
     padding: 80px 8%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .section-title {
@@ -168,75 +268,93 @@ nav a:hover {
 
 .matches-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .match-card {
-    background: #161c2d;
-    border-radius: 12px;
+    background: #131a29;
+    border-radius: 16px;
     padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.match-card:hover {
+    border-color: rgba(0, 210, 255, 0.4);
+    transform: translateY(-4px);
 }
 
 .league-name {
     font-size: 12px;
     color: #00d2ff;
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: 1px;
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .teams-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .team {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     width: 40%;
 }
 
 .team img {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
+    filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.5));
 }
 
 .team span {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     text-align: center;
 }
 
 .versus {
-    font-weight: bold;
-    color: #888;
+    font-weight: 800;
+    font-size: 14px;
+    color: #55657e;
+    background: #080b11;
+    padding: 6px 10px;
+    border-radius: 50%;
 }
 
 .match-info {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 12px;
     display: flex;
     justify-content: space-between;
-    font-size: 13px;
-    color: #aaa;
+    align-items: center;
+    font-size: 12px;
+    color: #8a99ad;
 }
 
 .platform-tag {
     color: #25d366;
-    font-weight: bold;
+    font-weight: 700;
+    background: rgba(37, 211, 102, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
 }
 
 /* Planos */
 .pricing-section {
     padding: 80px 8%;
-    background: #111622;
+    background: #0d121d;
     text-align: center;
 }
 
@@ -244,14 +362,15 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
-    margin-top: 40px;
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
 }
 
 .price-card {
-    background: #161c2d;
-    padding: 40px 20px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #131a29;
+    padding: 35px 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -259,34 +378,45 @@ nav a:hover {
 }
 
 .price-card.featured {
-    border-color: #00d2ff;
-    box-shadow: 0 0 25px rgba(0, 210, 255, 0.2);
-    transform: scale(1.03);
+    border: 2px solid #00d2ff;
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.25);
+    transform: scale(1.04);
 }
 
 .badge {
     position: absolute;
-    top: -12px;
+    top: -14px;
     left: 50%;
     transform: translateX(-50%);
     background: #00d2ff;
-    color: #000;
-    padding: 4px 15px;
+    color: #080b11;
+    padding: 4px 18px;
     border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.card-header h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.card-header p {
+    font-size: 13px;
+    color: #8a99ad;
 }
 
 .price {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 800;
-    margin: 20px 0;
+    margin: 25px 0;
     color: #00d2ff;
 }
 
 .price span {
     font-size: 14px;
-    color: #aaa;
+    color: #8a99ad;
 }
 
 .price-card ul {
@@ -297,30 +427,31 @@ nav a:hover {
 
 .price-card li {
     margin-bottom: 12px;
-    color: #ccc;
+    color: #d1d5db;
+    font-size: 14px;
 }
 
 .price-card li i {
     color: #25d366;
-    margin-right: 8px;
+    margin-right: 10px;
 }
 
 .btn-card {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 14px;
+    border-radius: 10px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
     transition: 0.3s;
 }
 
 .featured-btn {
-    background: linear-gradient(45deg, #00d2ff, #0072ff);
+    background: linear-gradient(45deg, #00d2ff, #0055ff);
 }
 
 .btn-card:hover {
-    opacity: 0.9;
+    filter: brightness(1.2);
 }
 
 /* WhatsApp Flutuante */
@@ -330,15 +461,15 @@ nav a:hover {
     right: 25px;
     background-color: #25d366;
     color: #fff;
-    border-radius: 50px;
+    border-radius: 50%;
     width: 60px;
     height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-    z-index: 100;
+    font-size: 32px;
+    box-shadow: 0px 5px 20px rgba(37,211,102,0.4);
+    z-index: 1000;
     text-decoration: none;
     transition: 0.3s;
 }
@@ -349,14 +480,31 @@ nav a:hover {
 
 footer {
     text-align: center;
-    padding: 20px;
-    background: #0b0e14;
+    padding: 25px;
+    background: #080b11;
     border-top: 1px solid rgba(255,255,255,0.05);
-    color: #666;
+    color: #55657e;
+    font-size: 14px;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+/* Responsividade Mobile */
+@media (max-width: 900px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-image-box {
+        max-width: 100%;
+    }
+
     nav { display: none; }
-    .hero-content h1 { font-size: 32px; }
+
+    .price-card.featured {
+        transform: scale(1);
+    }
 }
