@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Canais - Plataforma de Entretenimento Ilimitado</title>
+    <title>Mega Canais - Entretenimento Ilimitado</title>
     <!-- Fonte Google Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Icones FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Arquivo CSS local -->
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-    <!-- CABEÇALHO / NAVEGAÇÃO -->
+    <!-- CABEÇALHO COM A SUA LOGOMARCA OFICIAL -->
     <header class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-play logo-icon"></i>
-                <span>MEGA</span>CANAIS
+            <a href="#" class="brand-logo">
+                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img">
             </a>
             <nav class="nav-menu">
                 <ul>
@@ -28,37 +26,37 @@
                     <li><a href="#recursos">Recursos</a></li>
                     <li><a href="#jogos">Jogos de Hoje</a></li>
                     <li><a href="#planos">Planos</a></li>
-                    <li><a href="#contato" class="btn-nav">Assinar Agora</a></li>
+                    <li><a href="#contato" class="btn-gradient">Assinar Agora</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- HERO SECTION (DESTAQUE) -->
+    <!-- HERO SECTION CYBERPUNK / NEON -->
     <section id="inicio" class="hero">
         <div class="container hero-content">
-            <span class="badge-premium"><i class="fa-solid fa-crown"></i> Qualidade Ultra HD / 4K</span>
-            <h1>Sua Plataforma de Entretenimento Ilimitado</h1>
-            <p>Assista aos seus canais, filmes e séries favoritos sem travamentos, com atualizações diárias e a melhor grade de programação.</p>
+            <span class="badge-neon"><i class="fa-solid fa-bolt"></i> Painel Ultra HD / 4K Sem Travamentos</span>
+            <h1 class="gradient-text">Sua Plataforma de Entretenimento Ilimitado</h1>
+            <p>Assista aos seus canais ao vivo, filmes, séries e partidas de futebol com a melhor estabilidade e qualidade do mercado.</p>
             
             <div class="hero-buttons">
                 <a href="#planos" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Ver Planos e Preços</a>
-                <a href="#jogos" class="btn btn-secondary"><i class="fa-solid fa-futbol"></i> Programação de Hoje</a>
+                <a href="#jogos" class="btn btn-secondary"><i class="fa-solid fa-gamepad"></i> Jogos de Hoje</a>
             </div>
 
-            <!-- CARDS DE ESTATÍSTICAS -->
+            <!-- CARDS DE ESTATÍSTICAS NAS CORES DA MARCA -->
             <div class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card cyan">
                     <i class="fa-solid fa-tv"></i>
                     <h3>+1.900</h3>
                     <p>Canais ao Vivo</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card lime">
                     <i class="fa-solid fa-film"></i>
                     <h3>+30.000</h3>
                     <p>Filmes</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card magenta">
                     <i class="fa-solid fa-clapperboard"></i>
                     <h3>+16.000</h3>
                     <p>Séries</p>
@@ -67,18 +65,17 @@
         </div>
     </section>
 
-    <!-- SEÇÃO JOGOS DE HOJE (ATUALIZAÇÃO DINÂMICA) -->
+    <!-- SEÇÃO JOGOS DE HOJE (ATUALIZAÇÃO DE VERDADE COM DATA ATUAL) -->
     <section id="jogos" class="games-section">
         <div class="container">
             <div class="section-header">
-                <h2><i class="fa-solid fa-bolt"></i> Jogos de Hoje</h2>
-                <span class="badge-ia"><i class="fa-solid fa-robot"></i> Atualização Diária por IA</span>
+                <h2><i class="fa-solid fa-futbol text-lime"></i> Jogos de Hoje - <span id="data-atual"></span></h2>
+                <span class="badge-ia"><i class="fa-solid fa-robot"></i> Programação Atualizada via IA</span>
             </div>
-            <p class="section-desc">Confira as partidas em destaque transmitidas hoje na nossa plataforma:</p>
+            <p class="section-desc">Confira os principais jogos transmitidos hoje na plataforma:</p>
 
             <div id="games-list" class="games-grid">
-                <!-- Inserido dinamicamente via script.js -->
-                <div class="loading-games">Buscando programação dos jogos de hoje...</div>
+                <div class="loading-games">Carregando programação do dia...</div>
             </div>
         </div>
     </section>
@@ -87,8 +84,8 @@
     <section id="planos" class="plans-section">
         <div class="container">
             <div class="section-header center">
-                <h2>Escolha o Plano Ideal para Você</h2>
-                <p>Acesso imediato após a confirmação. Sem fidelidade.</p>
+                <h2 class="gradient-text">Planos e Preços</h2>
+                <p>Liberação imediata no WhatsApp sem fidelidade.</p>
             </div>
 
             <div class="plans-grid">
@@ -99,29 +96,29 @@
                         <div class="price">R$ 35<span>/mês</span></div>
                     </div>
                     <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> +1.900 Canais ao Vivo</li>
-                        <li><i class="fa-solid fa-check"></i> Filmes e Séries On Demand</li>
-                        <li><i class="fa-solid fa-check"></i> Qualidade SD / HD / FHD / 4K</li>
-                        <li><i class="fa-solid fa-check"></i> Guia de Programação (EPG)</li>
-                        <li><i class="fa-solid fa-check"></i> 1 Tela Simultânea</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> +1.900 Canais ao Vivo</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> Filmes e Séries On Demand</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> Qualidade SD / HD / FHD / 4K</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> Guia EPG Atualizado</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> 1 Tela Simultânea</li>
                     </ul>
                     <a href="#contato" class="btn btn-card">Assinar Mensal</a>
                 </div>
 
-                <!-- Plano Trimestral (Destaque) -->
+                <!-- Plano Trimestral (Destaque Neon) -->
                 <div class="plan-card featured">
-                    <div class="popular-tag">Mais Popular</div>
+                    <div class="popular-tag">Mais Vendido</div>
                     <div class="plan-header">
                         <h3>Plano Trimestral</h3>
                         <div class="price">R$ 85<span>/3 meses</span></div>
                     </div>
                     <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Todos os recursos do Mensal</li>
-                        <li><i class="fa-solid fa-check"></i> Economia de R$ 20,00</li>
-                        <li><i class="fa-solid fa-check"></i> Suporte Prioritário</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Telas Simultâneas</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> Todos os recursos do Mensal</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> Economia de R$ 20,00</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> Suporte Prioritário</li>
+                        <li><i class="fa-solid fa-check text-lime"></i> 2 Telas Simultâneas</li>
                     </ul>
-                    <a href="#contato" class="btn btn-primary full-width">Assinar Trimestral</a>
+                    <a href="#contato" class="btn btn-gradient full-width">Assinar Trimestral</a>
                 </div>
 
                 <!-- Plano Anual -->
@@ -131,10 +128,10 @@
                         <div class="price">R$ 200<span>/ano</span></div>
                     </div>
                     <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Acesso Total por 1 Ano</li>
-                        <li><i class="fa-solid fa-check"></i> Maior Economia</li>
-                        <li><i class="fa-solid fa-check"></i> Suporte VIP 24/7</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Telas Simultâneas</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> Acesso VIP por 12 Meses</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> Maior Desconto da Plataforma</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> Suporte 24/7 Ativo</li>
+                        <li><i class="fa-solid fa-check text-magenta"></i> 2 Telas Simultâneas</li>
                     </ul>
                     <a href="#contato" class="btn btn-card">Assinar Anual</a>
                 </div>
@@ -146,8 +143,8 @@
     <footer id="contato" class="footer">
         <div class="container footer-content">
             <div class="footer-brand">
-                <a href="#" class="logo"><span>MEGA</span>CANAIS</a>
-                <p>A melhor experiência em transmissão digital com tecnologia de ponta.</p>
+                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img-footer">
+                <p>A melhor experiência em transmissão digital e sinal estável.</p>
             </div>
             <div class="footer-copy">
                 <p>&copy; 2026 Mega Canais. Todos os direitos reservados.</p>
@@ -155,7 +152,6 @@
         </div>
     </footer>
 
-    <!-- Arquivo JavaScript local -->
     <script src="./script.js"></script>
 </body>
 </html>
