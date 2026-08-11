@@ -53,3 +53,8 @@ function carregarJogosDoDia() {
         containerJogos.innerHTML += cardHTML;
     });
 }
+
+        `;
+        containerJogos.innerHTML += cardHTML;
+    });
+}
