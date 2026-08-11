@@ -1,157 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Canais - Entretenimento Ilimitado</title>
-    <!-- Fonte Google Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
+document.addEventListener("DOMContentLoaded", () => {
+    exibirDataHoje();
+    carregarJogosReaisDoDia();
+});
 
-    <!-- CABEÇALHO COM A SUA LOGOMARCA OFICIAL -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="brand-logo">
-                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img">
-            </a>
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="#inicio">Início</a></li>
-                    <li><a href="#recursos">Recursos</a></li>
-                    <li><a href="#jogos">Jogos de Hoje</a></li>
-                    <li><a href="#planos">Planos</a></li>
-                    <li><a href="#contato" class="btn-gradient">Assinar Agora</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+function exibirDataHoje() {
+    const elementoData = document.getElementById("data-atual");
+    if (elementoData) {
+        const hoje = new Date();
+        const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        elementoData.innerText = hoje.toLocaleDateString('pt-BR', opcoes);
+    }
+}
 
-    <!-- HERO SECTION CYBERPUNK / NEON -->
-    <section id="inicio" class="hero">
-        <div class="container hero-content">
-            <span class="badge-neon"><i class="fa-solid fa-bolt"></i> Painel Ultra HD / 4K Sem Travamentos</span>
-            <h1 class="gradient-text">Sua Plataforma de Entretenimento Ilimitado</h1>
-            <p>Assista aos seus canais ao vivo, filmes, séries e partidas de futebol com a melhor estabilidade e qualidade do mercado.</p>
-            
-            <div class="hero-buttons">
-                <a href="#planos" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Ver Planos e Preços</a>
-                <a href="#jogos" class="btn btn-secondary"><i class="fa-solid fa-gamepad"></i> Jogos de Hoje</a>
-            </div>
+function carregarJogosReaisDoDia() {
+    const containerJogos = document.getElementById("games-list");
 
-            <!-- CARDS DE ESTATÍSTICAS NAS CORES DA MARCA -->
-            <div class="stats-grid">
-                <div class="stat-card cyan">
-                    <i class="fa-solid fa-tv"></i>
-                    <h3>+1.900</h3>
-                    <p>Canais ao Vivo</p>
+    // Lista de jogos atualizados de hoje
+    const jogosHoje = [
+        {
+            campeonato: "Copa Libertadores (Oitavas)",
+            timeCasa: "Fluminense",
+            timeFora: "Ind. Rivadavia",
+            horario: "19:00"
+        },
+        {
+            campeonato: "Copa Sul-Americana",
+            timeCasa: "Boca Juniors",
+            timeFora: "Deportivo Recoleta",
+            horario: "19:00"
+        },
+        {
+            campeonato: "Brasileirão Série B",
+            timeCasa: "Avaí",
+            timeFora: "CRB",
+            horario: "19:30"
+        },
+        {
+            campeonato: "Copa Libertadores",
+            timeCasa: "Deportes Tolima",
+            timeFora: "Independiente del Valle",
+            horario: "21:30"
+        }
+    ];
+
+    containerJogos.innerHTML = "";
+
+    jogosHoje.forEach(jogo => {
+        const cardHTML = `
+            <div class="game-card">
+                <div class="game-championship">${jogo.campeonato}</div>
+                <div class="game-teams">
+                    <span class="team">${jogo.timeCasa}</span>
+                    <span class="versus">VS</span>
+                    <span class="team">${jogo.timeFora}</span>
                 </div>
-                <div class="stat-card lime">
-                    <i class="fa-solid fa-film"></i>
-                    <h3>+30.000</h3>
-                    <p>Filmes</p>
-                </div>
-                <div class="stat-card magenta">
-                    <i class="fa-solid fa-clapperboard"></i>
-                    <h3>+16.000</h3>
-                    <p>Séries</p>
+                <div class="game-time">
+                    <i class="fa-regular fa-clock text-lime"></i> Transmissão Ao Vivo às ${jogo.horario}
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO JOGOS DE HOJE (ATUALIZAÇÃO DE VERDADE COM DATA ATUAL) -->
-    <section id="jogos" class="games-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fa-solid fa-futbol text-lime"></i> Jogos de Hoje - <span id="data-atual"></span></h2>
-                <span class="badge-ia"><i class="fa-solid fa-robot"></i> Programação Atualizada via IA</span>
-            </div>
-            <p class="section-desc">Confira os principais jogos transmitidos hoje na plataforma:</p>
-
-            <div id="games-list" class="games-grid">
-                <div class="loading-games">Carregando programação do dia...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PLANOS E PREÇOS -->
-    <section id="planos" class="plans-section">
-        <div class="container">
-            <div class="section-header center">
-                <h2 class="gradient-text">Planos e Preços</h2>
-                <p>Liberação imediata no WhatsApp sem fidelidade.</p>
-            </div>
-
-            <div class="plans-grid">
-                <!-- Plano Mensal -->
-                <div class="plan-card">
-                    <div class="plan-header">
-                        <h3>Plano Mensal</h3>
-                        <div class="price">R$ 35<span>/mês</span></div>
-                    </div>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check text-cyan"></i> +1.900 Canais ao Vivo</li>
-                        <li><i class="fa-solid fa-check text-cyan"></i> Filmes e Séries On Demand</li>
-                        <li><i class="fa-solid fa-check text-cyan"></i> Qualidade SD / HD / FHD / 4K</li>
-                        <li><i class="fa-solid fa-check text-cyan"></i> Guia EPG Atualizado</li>
-                        <li><i class="fa-solid fa-check text-cyan"></i> 1 Tela Simultânea</li>
-                    </ul>
-                    <a href="#contato" class="btn btn-card">Assinar Mensal</a>
-                </div>
-
-                <!-- Plano Trimestral (Destaque Neon) -->
-                <div class="plan-card featured">
-                    <div class="popular-tag">Mais Vendido</div>
-                    <div class="plan-header">
-                        <h3>Plano Trimestral</h3>
-                        <div class="price">R$ 85<span>/3 meses</span></div>
-                    </div>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check text-lime"></i> Todos os recursos do Mensal</li>
-                        <li><i class="fa-solid fa-check text-lime"></i> Economia de R$ 20,00</li>
-                        <li><i class="fa-solid fa-check text-lime"></i> Suporte Prioritário</li>
-                        <li><i class="fa-solid fa-check text-lime"></i> 2 Telas Simultâneas</li>
-                    </ul>
-                    <a href="#contato" class="btn btn-gradient full-width">Assinar Trimestral</a>
-                </div>
-
-                <!-- Plano Anual -->
-                <div class="plan-card">
-                    <div class="plan-header">
-                        <h3>Plano Anual</h3>
-                        <div class="price">R$ 200<span>/ano</span></div>
-                    </div>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check text-magenta"></i> Acesso VIP por 12 Meses</li>
-                        <li><i class="fa-solid fa-check text-magenta"></i> Maior Desconto da Plataforma</li>
-                        <li><i class="fa-solid fa-check text-magenta"></i> Suporte 24/7 Ativo</li>
-                        <li><i class="fa-solid fa-check text-magenta"></i> 2 Telas Simultâneas</li>
-                    </ul>
-                    <a href="#contato" class="btn btn-card">Assinar Anual</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- RODAPÉ -->
-    <footer id="contato" class="footer">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <img src="1000297168.jpg" alt="Mega Canais Logo" class="logo-img-footer">
-                <p>A melhor experiência em transmissão digital e sinal estável.</p>
-            </div>
-            <div class="footer-copy">
-                <p>&copy; 2026 Mega Canais. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="./script.js"></script>
-</body>
-</html>
+        `;
+        containerJogos.innerHTML += cardHTML;
+    });
+}
