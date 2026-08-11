@@ -1,54 +1,81 @@
-// Dados simulados de partidas com escudos/bandeiras dos times
-const matchesData = [
+// Lista de Jogos com escudos hospedados em CDN confiável da Wikimedia / Football-API
+const matches = [
     {
         league: "UEFA Champions League",
-        time: "16:00",
-        platform: "HBO Max",
-        team1: { name: "Real Madrid", flag: "https://media.api-sports.io/football/teams/541.png" },
-        team2: { name: "Manchester City", flag: "https://media.api-sports.io/football/teams/50.png" }
+        time: "17:00",
+        platform: "Max (HBO)",
+        team1: { 
+            name: "Real Madrid", 
+            flag: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" 
+        },
+        team2: { 
+            name: "Man. City", 
+            flag: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" 
+        }
     },
     {
         league: "Brasileirão Série A",
-        time: "20:00",
-        platform: "GloboPlay / Premiere",
-        team1: { name: "Flamengo", flag: "https://media.api-sports.io/football/teams/127.png" },
-        team2: { name: "Palmeiras", flag: "https://media.api-sports.io/football/teams/121.png" }
+        time: "19:30",
+        platform: "Globoplay / Premiere",
+        team1: { 
+            name: "Flamengo", 
+            flag: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Flamengo_braz_logo.svg" 
+        },
+        team2: { 
+            name: "Palmeiras", 
+            flag: "https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg" 
+        }
     },
     {
         league: "Premier League",
-        time: "12:30",
+        time: "13:00",
         platform: "Star+ / ESPN",
-        team1: { name: "Arsenal", flag: "https://media.api-sports.io/football/teams/42.png" },
-        team2: { name: "Chelsea", flag: "https://media.api-sports.io/football/teams/49.png" }
+        team1: { 
+            name: "Arsenal", 
+            flag: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" 
+        },
+        team2: { 
+            name: "Chelsea", 
+            flag: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" 
+        }
     },
     {
         league: "Copa Libertadores",
         time: "21:30",
         platform: "Paramount+",
-        team1: { name: "Boca Juniors", flag: "https://media.api-sports.io/football/teams/451.png" },
-        team2: { name: "River Plate", flag: "https://media.api-sports.io/football/teams/435.png" }
+        team1: { 
+            name: "Boca Juniors", 
+            flag: "https://upload.wikimedia.org/wikipedia/commons/4/41/Boca_Juniors_logo13.svg" 
+        },
+        team2: { 
+            name: "River Plate", 
+            flag: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Escudo_del_C_A_River_Plate.svg" 
+        }
     }
 ];
 
-// Função para renderizar os jogos na tela
-function renderMatches() {
+// Função responsável por carregar os jogos no site
+function loadMatches() {
     const container = document.getElementById('matchesContainer');
-    container.innerHTML = '';
+    
+    if (!container) return;
+    
+    container.innerHTML = ''; // Limpa antes de renderizar
 
-    matchesData.forEach(match => {
-        const matchCard = document.createElement('div');
-        matchCard.className = 'match-card';
+    matches.forEach(match => {
+        const card = document.createElement('div');
+        card.className = 'match-card';
 
-        matchCard.innerHTML = `
+        card.innerHTML = `
             <div class="league-name">${match.league}</div>
             <div class="teams-container">
                 <div class="team">
-                    <img src="${match.team1.flag}" alt="${match.team1.name}">
+                    <img src="${match.team1.flag}" alt="${match.team1.name}" onerror="this.src='https://via.placeholder.com/50?text=TIME'">
                     <span>${match.team1.name}</span>
                 </div>
                 <div class="versus">VS</div>
                 <div class="team">
-                    <img src="${match.team2.flag}" alt="${match.team2.name}">
+                    <img src="${match.team2.flag}" alt="${match.team2.name}" onerror="this.src='https://via.placeholder.com/50?text=TIME'">
                     <span>${match.team2.name}</span>
                 </div>
             </div>
@@ -58,11 +85,9 @@ function renderMatches() {
             </div>
         `;
 
-        container.appendChild(matchCard);
+        container.appendChild(card);
     });
 }
 
-// Inicializar carregamento dos jogos ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    renderMatches();
-});
+// Executa a função após o documento ser totalmente carregado
+window.addEventListener('DOMContentLoaded', loadMatches);
