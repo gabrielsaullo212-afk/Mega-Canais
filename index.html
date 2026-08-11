@@ -1,93 +1,756 @@
-// Lista de Jogos com escudos hospedados em CDN confiável da Wikimedia / Football-API
-const matches = [
-    {
-        league: "UEFA Champions League",
-        time: "17:00",
-        platform: "Max (HBO)",
-        team1: { 
-            name: "Real Madrid", 
-            flag: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" 
-        },
-        team2: { 
-            name: "Man. City", 
-            flag: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" 
-        }
-    },
-    {
-        league: "Brasileirão Série A",
-        time: "19:30",
-        platform: "Globoplay / Premiere",
-        team1: { 
-            name: "Flamengo", 
-            flag: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Flamengo_braz_logo.svg" 
-        },
-        team2: { 
-            name: "Palmeiras", 
-            flag: "https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg" 
-        }
-    },
-    {
-        league: "Premier League",
-        time: "13:00",
-        platform: "Star+ / ESPN",
-        team1: { 
-            name: "Arsenal", 
-            flag: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" 
-        },
-        team2: { 
-            name: "Chelsea", 
-            flag: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" 
-        }
-    },
-    {
-        league: "Copa Libertadores",
-        time: "21:30",
-        platform: "Paramount+",
-        team1: { 
-            name: "Boca Juniors", 
-            flag: "https://upload.wikimedia.org/wikipedia/commons/4/41/Boca_Juniors_logo13.svg" 
-        },
-        team2: { 
-            name: "River Plate", 
-            flag: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Escudo_del_C_A_River_Plate.svg" 
-        }
-    }
-];
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-// Função responsável por carregar os jogos no site
-function loadMatches() {
-    const container = document.getElementById('matchesContainer');
-    
-    if (!container) return;
-    
-    container.innerHTML = ''; // Limpa antes de renderizar
+    <meta name="theme-color" content="#07070b">
+    <meta name="description" content="Mega Canais — entretenimento, canais ao vivo, filmes, séries e esportes em uma experiência completa.">
 
-    matches.forEach(match => {
-        const card = document.createElement('div');
-        card.className = 'match-card';
+    <title>Mega Canais | Entretenimento sem limites</title>
 
-        card.innerHTML = `
-            <div class="league-name">${match.league}</div>
-            <div class="teams-container">
-                <div class="team">
-                    <img src="${match.team1.flag}" alt="${match.team1.name}" onerror="this.src='https://via.placeholder.com/50?text=TIME'">
-                    <span>${match.team1.name}</span>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Fundo decorativo -->
+    <div class="noise"></div>
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+
+    <!-- ================= HEADER ================= -->
+    <header class="header" id="header">
+
+        <a href="#inicio" class="brand">
+            <span class="brand-icon">
+                <i class="fa-solid fa-play"></i>
+            </span>
+
+            <span>
+                Mega <strong>Canais</strong>
+            </span>
+        </a>
+
+        <nav class="desktop-nav">
+            <a href="#inicio">Início</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#jogos">Esportes</a>
+            <a href="#planos">Planos</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+
+        <a
+            class="header-cta"
+            href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Quero%20conhecer%20os%20planos%20da%20Mega%20Canais."
+            target="_blank"
+            rel="noopener"
+        >
+            <i class="fa-brands fa-whatsapp"></i>
+            Assinar agora
+        </a>
+
+        <button class="menu-button" id="menuButton" aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </header>
+
+    <!-- MENU MOBILE -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#inicio">Início</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#jogos">Esportes</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">FAQ</a>
+
+        <a
+            class="mobile-cta"
+            href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Quero%20conhecer%20os%20planos%20da%20Mega%20Canais."
+            target="_blank"
+            rel="noopener"
+        >
+            <i class="fa-brands fa-whatsapp"></i>
+            Falar no WhatsApp
+        </a>
+    </div>
+
+
+    <!-- ================= HERO ================= -->
+    <main>
+
+        <section class="hero" id="inicio">
+
+            <div class="hero-content">
+
+                <div class="status-pill">
+                    <span class="pulse"></span>
+                    EXPERIÊNCIA DE ENTRETENIMENTO
                 </div>
-                <div class="versus">VS</div>
-                <div class="team">
-                    <img src="${match.team2.flag}" alt="${match.team2.name}" onerror="this.src='https://via.placeholder.com/50?text=TIME'">
-                    <span>${match.team2.name}</span>
+
+                <h1>
+                    O entretenimento
+                    <span>do seu jeito.</span>
+                </h1>
+
+                <p>
+                    Filmes, séries, canais e esportes em uma experiência
+                    moderna, rápida e feita para você aproveitar em qualquer tela.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="#planos" class="btn btn-primary">
+                        <i class="fa-solid fa-rocket"></i>
+                        Conhecer planos
+                    </a>
+
+                    <a
+                        href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20Mega%20Canais."
+                        target="_blank"
+                        rel="noopener"
+                        class="btn btn-outline"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Falar com atendimento
+                    </a>
+
                 </div>
-            </div>
-            <div class="match-info">
-                <span><i class="far fa-clock"></i> ${match.time}</span>
-                <span class="platform-tag"><i class="fas fa-tv"></i> ${match.platform}</span>
-            </div>
-        `;
 
-        container.appendChild(card);
-    });
-}
+                <div class="hero-proof">
 
-// Executa a função após o documento ser totalmente carregado
-window.addEventListener('DOMContentLoaded', loadMatches);
+                    <div class="avatars">
+                        <span>MC</span>
+                        <span>+</span>
+                        <span>4K</span>
+                    </div>
+
+                    <div>
+                        <strong>Uma experiência completa</strong>
+                        <small>Entretenimento em um só lugar</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- MOCKUP -->
+            <div class="hero-visual">
+
+                <div class="visual-glow"></div>
+
+                <div class="screen">
+
+                    <div class="screen-top">
+                        <span class="mini-logo">
+                            <i class="fa-solid fa-play"></i>
+                            Mega Canais
+                        </span>
+
+                        <div class="screen-icons">
+                            <i class="fa-solid fa-search"></i>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+
+                    <div class="featured-content">
+
+                        <div class="featured-info">
+
+                            <span class="featured-label">
+                                <i class="fa-solid fa-circle"></i>
+                                DESTAQUE
+                            </span>
+
+                            <h2>Entretenimento<br>sem limites.</h2>
+
+                            <p>
+                                Conteúdos para todos os momentos.
+                            </p>
+
+                            <button class="play-button">
+                                <i class="fa-solid fa-play"></i>
+                                Explorar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="content-row">
+
+                        <div class="content-card card-one">
+                            <span>FILMES</span>
+                        </div>
+
+                        <div class="content-card card-two">
+                            <span>SÉRIES</span>
+                        </div>
+
+                        <div class="content-card card-three">
+                            <span>ESPORTES</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="floating-card floating-card-one">
+                    <i class="fa-solid fa-bolt"></i>
+                    <div>
+                        <strong>Experiência rápida</strong>
+                        <small>Em qualquer dispositivo</small>
+                    </div>
+                </div>
+
+                <div class="floating-card floating-card-two">
+                    <i class="fa-solid fa-tv"></i>
+                    <div>
+                        <strong>Multi-telas</strong>
+                        <small>Dependendo do plano</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+        <section class="stats">
+
+            <div class="stat">
+                <strong data-counter="2000">0</strong>
+                <span>+</span>
+                <small>possibilidades de conteúdo</small>
+            </div>
+
+            <div class="stat">
+                <strong data-counter="4">0</strong>
+                <span>K</span>
+                <small>qualidade compatível</small>
+            </div>
+
+            <div class="stat">
+                <strong>24</strong>
+                <span>h</span>
+                <small>atendimento</small>
+            </div>
+
+            <div class="stat">
+                <strong>3</strong>
+                <span> planos</span>
+                <small>para escolher</small>
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECURSOS ================= -->
+        <section class="section" id="recursos">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    <i class="fa-solid fa-layer-group"></i>
+                    POR QUE MEGA CANAIS?
+                </span>
+
+                <h2>
+                    Tudo pensado para uma
+                    <span>experiência melhor.</span>
+                </h2>
+
+                <p>
+                    Uma interface simples, moderna e preparada para
+                    diferentes dispositivos.
+                </p>
+
+            </div>
+
+            <div class="features-grid">
+
+                <article class="feature reveal">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+
+                    <h3>Em qualquer tela</h3>
+
+                    <p>
+                        Experiência adaptada para celular, computador,
+                        TV e outros dispositivos compatíveis.
+                    </p>
+
+                    <span class="feature-number">01</span>
+                </article>
+
+                <article class="feature reveal">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+
+                    <h3>Experiência rápida</h3>
+
+                    <p>
+                        Interface leve e organizada para você encontrar
+                        o que procura com poucos cliques.
+                    </p>
+
+                    <span class="feature-number">02</span>
+                </article>
+
+                <article class="feature reveal">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-futbol"></i>
+                    </div>
+
+                    <h3>Esportes</h3>
+
+                    <p>
+                        Acompanhe a programação esportiva e descubra
+                        os principais eventos do dia.
+                    </p>
+
+                    <span class="feature-number">03</span>
+                </article>
+
+                <article class="feature reveal">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+
+                    <h3>Atendimento</h3>
+
+                    <p>
+                        Precisa de ajuda? Nossa equipe está disponível
+                        pelo WhatsApp.
+                    </p>
+
+                    <span class="feature-number">04</span>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ESPORTES ================= -->
+        <section class="matches-section" id="jogos">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    <i class="fa-solid fa-circle-dot"></i>
+                    ESPORTES
+                </span>
+
+                <h2>
+                    Programação de
+                    <span>hoje.</span>
+                </h2>
+
+                <p>
+                    Confira alguns exemplos de eventos esportivos.
+                </p>
+
+            </div>
+
+            <div class="matches-grid" id="matchesContainer">
+                <!-- JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- ================= PLANOS ================= -->
+        <section class="section pricing-section" id="planos">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    <i class="fa-solid fa-crown"></i>
+                    PLANOS
+                </span>
+
+                <h2>
+                    Escolha o seu
+                    <span>plano.</span>
+                </h2>
+
+                <p>
+                    Sem complicação. Escolha a opção que combina
+                    com você.
+                </p>
+
+            </div>
+
+            <div class="pricing-grid">
+
+                <!-- MENSAL -->
+                <article class="price-card reveal">
+
+                    <div class="plan-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <h3>Mensal</h3>
+
+                    <p class="plan-description">
+                        Acesso completo por 30 dias.
+                    </p>
+
+                    <div class="price">
+                        <small>R$</small>
+                        35<span>,00</span>
+                        <em>/mês</em>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            + de 2.000 canais
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Filmes e séries
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Qualidade Full HD / 4K
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Suporte pelo WhatsApp
+                        </li>
+                    </ul>
+
+                    <a
+                        class="plan-button"
+                        href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Mensal%20de%20R%24%2035%2C00."
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Escolher plano
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </article>
+
+
+                <!-- SEMESTRAL -->
+                <article class="price-card featured reveal">
+
+                    <div class="popular">
+                        <i class="fa-solid fa-fire"></i>
+                        MAIS VENDIDO
+                    </div>
+
+                    <div class="plan-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <h3>Semestral</h3>
+
+                    <p class="plan-description">
+                        Economia inteligente por 6 meses.
+                    </p>
+
+                    <div class="price">
+                        <small>R$</small>
+                        120<span>,00</span>
+                        <em>/6 meses</em>
+                    </div>
+
+                    <div class="saving">
+                        ECONOMIZE R$ 90,00
+                    </div>
+
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Todos os benefícios do mensal
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Economia de R$ 90,00
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Acesso em até 2 telas
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Atendimento prioritário
+                        </li>
+                    </ul>
+
+                    <a
+                        class="plan-button"
+                        href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Semestral%20de%20R%24%20120%2C00."
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Quero esse plano
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </article>
+
+
+                <!-- ANUAL -->
+                <article class="price-card reveal">
+
+                    <div class="plan-icon">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+
+                    <h3>Anual</h3>
+
+                    <p class="plan-description">
+                        A melhor opção a longo prazo.
+                    </p>
+
+                    <div class="price">
+                        <small>R$</small>
+                        170<span>,00</span>
+                        <em>/ano</em>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Acesso por 1 ano
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Máxima economia
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Atualizações de conteúdo
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            Suporte VIP
+                        </li>
+                    </ul>
+
+                    <a
+                        class="plan-button"
+                        href="https://wa.me/5561981389486?text=Quero%20assinar%20o%20Plano%20Anual%20de%20R%24%20170%2C00."
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Escolher plano
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CTA ================= -->
+        <section class="cta-section reveal">
+
+            <div class="cta-content">
+
+                <span class="eyebrow">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    ATENDIMENTO
+                </span>
+
+                <h2>
+                    Ainda ficou com
+                    <span>alguma dúvida?</span>
+                </h2>
+
+                <p>
+                    Fale diretamente com nossa equipe e descubra
+                    qual plano faz mais sentido para você.
+                </p>
+
+                <a
+                    href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Mega%20Canais%20e%20quero%20mais%20informa%C3%A7%C3%B5es."
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-whatsapp"
+                >
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Falar no WhatsApp
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FAQ ================= -->
+        <section class="section faq-section" id="faq">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    <i class="fa-solid fa-circle-question"></i>
+                    DÚVIDAS
+                </span>
+
+                <h2>
+                    Perguntas
+                    <span>frequentes.</span>
+                </h2>
+
+            </div>
+
+            <div class="faq-list">
+
+                <div class="faq reveal">
+                    <button class="faq-question">
+                        Como funciona a assinatura?
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                    <div class="faq-answer">
+                        <p>
+                            Escolha o plano desejado e entre em contato
+                            pelo WhatsApp para receber as orientações
+                            de contratação e acesso.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq reveal">
+                    <button class="faq-question">
+                        Posso usar em diferentes dispositivos?
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                    <div class="faq-answer">
+                        <p>
+                            A disponibilidade de telas e dispositivos
+                            depende das condições do plano contratado.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq reveal">
+                    <button class="faq-question">
+                        Como funciona o suporte?
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                    <div class="faq-answer">
+                        <p>
+                            O atendimento é realizado pelo WhatsApp,
+                            de acordo com as condições do plano.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq reveal">
+                    <button class="faq-question">
+                        Posso cancelar?
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                    <div class="faq-answer">
+                        <p>
+                            Consulte as condições de cancelamento
+                            antes de realizar a contratação.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+
+        <div class="footer-main">
+
+            <a href="#inicio" class="brand">
+                <span class="brand-icon">
+                    <i class="fa-solid fa-play"></i>
+                </span>
+
+                <span>
+                    Mega <strong>Canais</strong>
+                </span>
+            </a>
+
+            <p>
+                Entretenimento em uma experiência simples,
+                moderna e completa.
+            </p>
+
+            <div class="socials">
+
+                <a href="#" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a
+                    href="https://wa.me/5561981389486"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="WhatsApp"
+                >
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 Mega Canais. Todos os direitos reservados.</span>
+            <span>Feito para uma experiência melhor.</span>
+        </div>
+
+    </footer>
+
+
+    <!-- BOTÃO WHATSAPP -->
+    <a
+        class="whatsapp-float"
+        href="https://wa.me/5561981389486?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Mega%20Canais."
+        target="_blank"
+        rel="noopener"
+        aria-label="Falar no WhatsApp"
+    >
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Fale conosco</span>
+    </a>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
