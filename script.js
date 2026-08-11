@@ -1,321 +1,150 @@
-// --- ESTADO DO SISTEMA ---
-let cardapio = JSON.parse(localStorage.getItem('tech_cardapio')) || [
-    { id: 1, nome: "Cerveja Heineken 600ml", preco: 14.50, codigo: "78910001" },
-    { id: 2, nome: "Chopp Artesanal 500ml", preco: 12.00, codigo: "78910002" },
-    { id: 3, nome: "Red Bull Energy", preco: 16.00, codigo: "78910003" },
-    { id: 4, nome: "Porção Batata Rústica", preco: 42.00, codigo: "" }
-];
-
-let totalCaixaDia = parseFloat(localStorage.getItem('tech_total_caixa')) || 0.00;
-let modoAtual = 'balcao';
-let itensBalcao = [];
-
-let mesas = JSON.parse(localStorage.getItem('tech_mesas')) || [
-    { id: 1, nome: "MESA 01", ocupada: false, itens: [] },
-    { id: 2, nome: "MESA 02", ocupada: false, itens: [] },
-    { id: 3, nome: "MESA 03", ocupada: false, itens: [] },
-    { id: 4, nome: "MESA 04", ocupada: false, itens: [] }
-];
-let mesaSelecionadaId = null;
-
-// --- SALVAMENTO E SINCRONIZAÇÃO ---
-function salvarEstado() {
-    localStorage.setItem('tech_cardapio', JSON.stringify(cardapio));
-    localStorage.setItem('tech_mesas', JSON.stringify(mesas));
-    localStorage.setItem('tech_total_caixa', totalCaixaDia.toString());
-}
-
-// --- NAVEGAÇÃO DE INTERFACE ---
-function switchTab(tab) {
-    document.getElementById('tab-cat').classList.toggle('active', tab === 'catalogo');
-    document.getElementById('tab-cad').classList.toggle('active', tab === 'cadastro');
-    document.getElementById('view-catalogo').classList.toggle('hidden', tab !== 'catalogo');
-    document.getElementById('view-cadastro').classList.toggle('hidden', tab !== 'cadastro');
-}
-
-function switchMode(modo) {
-    modoAtual = modo;
-    document.getElementById('mode-balcao').classList.toggle('active', modo === 'balcao');
-    document.getElementById('mode-mesas').classList.toggle('active', modo === 'mesas');
-    document.getElementById('view-balcao').classList.toggle('hidden', modo !== 'balcao');
-    document.getElementById('view-mesas').classList.toggle('hidden', modo !== 'mesas');
-}
-
-// --- CATALOGO E PRODUTOS ---
-function renderCardapio(lista = cardapio) {
-    const grid = document.getElementById('grid-produtos');
-    if (!grid) return;
+/* --- PALETA MEGA CANAIS (CIBERNÉTICA & STREAMING) --- */
+:root {
+    --bg-dark: #070A12;
+    --bg-card: rgba(15, 23, 42, 0.75);
     
-    if (lista.length === 0) {
-        grid.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 20px;">Nenhum produto cadastrado.</p>`;
-        return;
-    }
-
-    grid.innerHTML = lista.map(p => `
-        <div class="product-card" onclick="adicionarProdutoPorId(${p.id})">
-            <button class="btn-del-prod" title="Remover" onclick="excluirProduto(event, ${p.id})">✕</button>
-            <h4>${p.nome}</h4>
-            <div class="price mono">R$ ${p.preco.toFixed(2)}</div>
-            ${p.codigo ? `<span class="sku mono">SKU: ${p.codigo}</span>` : ''}
-        </div>
-    `).join('');
-}
-
-function filtrarCardapio() {
-    const termo = document.getElementById('busca-produto').value.toLowerCase();
-    const filtrados = cardapio.filter(p => p.nome.toLowerCase().includes(termo));
-    renderCardapio(filtrados);
-}
-
-function cadastrarProduto(e) {
-    e.preventDefault();
-    const nome = document.getElementById('cad-nome').value.trim();
-    const preco = parseFloat(document.getElementById('cad-preco').value);
-    const codigo = document.getElementById('cad-codigo').value.trim();
-
-    if (!nome || isNaN(preco)) return;
-
-    cardapio.push({ id: Date.now(), nome, preco, codigo });
-    salvarEstado();
-
-    document.getElementById('cad-nome').value = '';
-    document.getElementById('cad-preco').value = '';
-    document.getElementById('cad-codigo').value = '';
-
-    renderCardapio();
-    switchTab('catalogo');
-}
-
-function excluirProduto(e, id) {
-    e.stopPropagation();
-    if (confirm("Remover este produto permanentemente do banco de dados?")) {
-        cardapio = cardapio.filter(p => p.id !== id);
-        salvarEstado();
-        renderCardapio();
-    }
-}
-
-// --- OPERAÇÃO DE SCANNER / CÓDIGO DE BARRAS ---
-document.addEventListener('DOMContentLoaded', () => {
-    const inputBarcode = document.getElementById('input-barcode');
-    if (inputBarcode) {
-        inputBarcode.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const codigoBipado = this.value.trim();
-                if (codigoBipado) {
-                    const produto = cardapio.find(p => p.codigo === codigoBipado || p.nome.toLowerCase().includes(codigoBipado.toLowerCase()));
-                    if (produto) {
-                        adicionarProdutoObjeto(produto);
-                    } else {
-                        alert(`Item não localizado no sistema.`);
-                    }
-                }
-                this.value = '';
-            }
-        });
-    }
-
-    renderCardapio();
-    renderMesas();
-    document.getElementById('total-caixa-dia').innerText = `R$ ${totalCaixaDia.toFixed(2)}`;
-});
-
-// --- LÓGICA DO CARRINHO ---
-function adicionarProdutoPorId(id) {
-    const produto = cardapio.find(p => p.id === id);
-    if (produto) adicionarProdutoObjeto(produto);
-}
-
-function adicionarProdutoObjeto(produto) {
-    if (modoAtual === 'balcao') {
-        const item = itensBalcao.find(i => i.id === produto.id);
-        if (item) { item.qtd += 1; } else { itensBalcao.push({ ...produto, qtd: 1 }); }
-        updateBalcao();
-    } else {
-        if (!mesaSelecionadaId) return alert("Selecione uma mesa ativa primeiro!");
-        const mesa = mesas.find(m => m.id === mesaSelecionadaId);
-        mesa.ocupada = true;
-        const item = mesa.itens.find(i => i.id === produto.id);
-        if (item) { item.qtd += 1; } else { mesa.itens.push({ ...produto, qtd: 1 }); }
-        salvarEstado();
-        renderMesas();
-        updateMesaSelecionada();
-    }
-}
-
-function changeQtyBalcao(id, delta) {
-    const item = itensBalcao.find(i => i.id === id);
-    if (!item) return;
-    item.qtd += delta;
-    if (item.qtd <= 0) itensBalcao = itensBalcao.filter(i => i.id !== id);
-    updateBalcao();
-}
-
-function updateBalcao() {
-    const container = document.getElementById('itens-balcao');
-    const totalEl = document.getElementById('total-balcao');
-
-    if (itensBalcao.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 20px;">Caixa Livre (Carrinho Vazio)</p>`;
-        totalEl.innerText = "R$ 0,00";
-        calculateChange('balcao');
-        return;
-    }
-
-    container.innerHTML = itensBalcao.map(item => `
-        <div class="cart-item">
-            <div>
-                <strong>${item.nome}</strong>
-                <div style="font-size:0.7rem; color:var(--text-muted)">R$ ${item.preco.toFixed(2)} /un</div>
-            </div>
-            <div class="qty-controls">
-                <button class="qty-btn" onclick="changeQtyBalcao(${item.id}, -1)">-</button>
-                <span class="mono">${item.qtd}</span>
-                <button class="qty-btn" onclick="changeQtyBalcao(${item.id}, 1)">+</button>
-                <span class="mono" style="min-width: 60px; text-align: right; color: var(--primary-cyan)">R$ ${(item.preco * item.qtd).toFixed(2)}</span>
-            </div>
-        </div>
-    `).join('');
-
-    const total = itensBalcao.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
-    totalEl.innerText = `R$ ${total.toFixed(2)}`;
-    calculateChange('balcao');
-}
-
-// --- REGRAS BANCÁRIAS E TROCO ---
-function checkPaymentMethod(modo) {
-    const forma = document.getElementById(`pagamento-${modo}`).value;
-    const boxDinheiro = document.getElementById(`cash-box-${modo}`);
-    if (boxDinheiro) {
-        boxDinheiro.classList.toggle('hidden', forma !== 'Dinheiro');
-    }
-}
-
-function calculateChange(modo) {
-    const total = itensBalcao.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
-    const recebido = parseFloat(document.getElementById(`valor-recebido-${modo}`).value) || 0;
-    const trocoEl = document.getElementById(`troco-valor-${modo}`);
-    const troco = recebido - total;
-    trocoEl.innerText = troco > 0 ? `R$ ${troco.toFixed(2)}` : `R$ 0,00`;
-}
-
-function fecharVendaBalcao() {
-    if (itensBalcao.length === 0) return alert("Adicione itens para processar a venda.");
-    const forma = document.getElementById('pagamento-balcao').value;
-    const total = itensBalcao.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
-
-    totalCaixaDia += total;
-    salvarEstado();
-    document.getElementById('total-caixa-dia').innerText = `R$ ${totalCaixaDia.toFixed(2)}`;
-
-    itensBalcao = [];
-    document.getElementById('valor-recebido-balcao').value = '';
-    updateBalcao();
+    --primary-neon: #10B981;     /* Verde Esmeralda */
+    --primary-glow: rgba(16, 185, 129, 0.35);
     
-    alert(`TRANSAÇÃO APROVADA!\n\nForma: ${forma}\nValor Total: R$ ${total.toFixed(2)}`);
-}
+    --secondary-cyan: #06B6D4;   /* Azul Ciano */
+    --secondary-glow: rgba(6, 182, 212, 0.35);
 
-// --- GESTÃO DE MESAS ---
-function adicionarMesa() {
-    const id = mesas.length + 1;
-    mesas.push({ id, nome: `MESA ${id < 10 ? '0' + id : id}`, ocupada: false, itens: [] });
-    salvarEstado();
-    renderMesas();
-}
-
-function renderMesas() {
-    const grid = document.getElementById('grid-mesas');
-    if (!grid) return;
-    grid.innerHTML = mesas.map(m => `
-        <div class="table-card ${m.ocupada ? 'occupied' : ''} ${m.id === mesaSelecionadaId ? 'selected' : ''}" onclick="selectMesa(${m.id})">
-            ${m.nome}
-        </div>
-    `).join('');
-}
-
-function selectMesa(id) {
-    mesaSelecionadaId = id;
-    renderMesas();
-    updateMesaSelecionada();
-}
-
-function updateMesaSelecionada() {
-    const details = document.getElementById('detalhes-mesa');
-    if (!mesaSelecionadaId) { details.classList.add('hidden'); return; }
-
-    details.classList.remove('hidden');
-    const mesa = mesas.find(m => m.id === mesaSelecionadaId);
-    document.getElementById('titulo-mesa-selecionada').innerText = mesa.nome;
-
-    const container = document.getElementById('itens-mesa');
-    const totalEl = document.getElementById('total-mesa');
-
-    if (mesa.itens.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 15px;">Sem ordens em aberto.</p>`;
-        totalEl.innerText = "R$ 0,00";
-        return;
-    }
-
-    container.innerHTML = mesa.itens.map(item => `
-        <div class="cart-item">
-            <div><strong>${item.nome}</strong></div>
-            <div class="qty-controls">
-                <span class="mono">${item.qtd}x</span>
-                <span class="mono" style="color:var(--primary-cyan)">R$ ${(item.preco * item.qtd).toFixed(2)}</span>
-            </div>
-        </div>
-    `).join('');
-
-    const total = mesa.itens.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
-    totalEl.innerText = `R$ ${total.toFixed(2)}`;
-}
-
-function fecharMesa() {
-    if (!mesaSelecionadaId) return;
-    const mesa = mesas.find(m => m.id === mesaSelecionadaId);
-    if (mesa.itens.length === 0) return alert("Mesa sem consumo cadastrado.");
-
-    const total = mesa.itens.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
-    totalCaixaDia += total;
-
-    mesa.itens = [];
-    mesa.ocupada = false;
-
-    salvarEstado();
-    document.getElementById('total-caixa-dia').innerText = `R$ ${totalCaixaDia.toFixed(2)}`;
-    renderMesas();
-    updateMesaSelecionada();
+    --accent-red: #EF4444;       /* Vermelho Live */
     
-    alert(`CONTA ENCERRADA - ${mesa.nome}\nTotal Pago: R$ ${total.toFixed(2)}`);
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    
+    --border-glow: rgba(16, 185, 129, 0.25);
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 9999px;
+    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-// --- IMPRESSÃO / RECIBO FISCAL ---
-function imprimirComprovante(tipo) {
-    let lista = tipo === 'balcao' ? itensBalcao : (mesas.find(m => m.id === mesaSelecionadaId)?.itens || []);
-    if (lista.length === 0) return alert("Sem dados para emissão de cupom.");
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 85% 65%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+    background-attachment: fixed;
+}
 
-    const total = lista.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
-    const printArea = document.getElementById('area-cupom-impressao');
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-    printArea.innerHTML = `
-        <div style="text-align: center; font-weight: bold;">*** COMPROVANTE NON-FISCAL ***</div>
-        <div style="text-align: center;">CAIXALIVRE TECH PRO</div>
-        <div>--------------------------------</div>
-        <div>DATA: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</div>
-        <div>--------------------------------</div>
-        ${lista.map(i => `
-            <div style="display:flex; justify-content:space-between;">
-                <span>${i.qtd}x ${i.nome}</span>
-                <span>R$ ${(i.preco * i.qtd).toFixed(2)}</span>
-            </div>
-        `).join('')}
-        <div>--------------------------------</div>
-        <div style="display:flex; justify-content:space-between; font-weight:bold;">
-            <span>TOTAL:</span>
-            <span>R$ ${total.toFixed(2)}</span>
-        </div>
-    `;
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-neon) 0%, var(--secondary-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-    window.print();
+/* Header */
+.header {
+    position: sticky; top: 0;
+    background: rgba(7, 10, 18, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 100; padding: 18px 0;
+}
+.nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 12px; font-size: 1.5rem; font-weight: 800; text-decoration: none; color: #FFF; }
+.logo-icon {
+    width: 42px; height: 42px; background: linear-gradient(135deg, var(--primary-neon), var(--secondary-cyan));
+    color: var(--bg-dark); border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+.nav-menu { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-link { text-decoration: none; color: var(--text-muted); font-weight: 600; font-size: 0.95rem; transition: var(--transition); }
+.nav-link:hover { color: var(--primary-neon); }
+
+/* Botões */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 12px 26px; font-size: 0.9rem; font-weight: 700; border-radius: var(--radius-full);
+    text-decoration: none; transition: var(--transition); border: none; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; text-transform: uppercase;
+}
+.btn-neon { background: linear-gradient(135deg, var(--primary-neon), var(--secondary-cyan)); color: var(--bg-dark); box-shadow: 0 0 20px var(--primary-glow); }
+.btn-neon:hover { transform: translateY(-2px); box-shadow: 0 0 30px var(--secondary-glow); }
+.btn-outline { background: transparent; color: #FFF; border: 2px solid var(--secondary-cyan); }
+.btn-outline:hover { background: var(--secondary-cyan); color: var(--bg-dark); }
+
+/* Hero Section */
+.hero { padding: 80px 0 60px; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
+.badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
+    background: rgba(16, 185, 129, 0.1); border: 1px solid var(--primary-neon); color: var(--primary-neon);
+    border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 700; margin-bottom: 20px;
+}
+.hero-title { font-size: 3.2rem; line-height: 1.15; font-weight: 800; margin-bottom: 20px; }
+.hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; }
+.hero-actions { display: flex; gap: 16px; }
+
+.hero-preview { display: grid; gap: 16px; }
+.preview-card {
+    background: var(--bg-card); border: 1px solid var(--border-glow); padding: 24px;
+    border-radius: var(--radius-lg); text-align: center; backdrop-filter: blur(12px);
+}
+.preview-card i { font-size: 2rem; color: var(--secondary-cyan); margin-bottom: 10px; }
+
+/* Plataformas */
+.platforms { padding: 60px 0; }
+.section-header { text-align: center; max-width: 650px; margin: 0 auto 50px; }
+.section-tag { color: var(--secondary-cyan); font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.15em; }
+.section-title { font-size: 2.2rem; font-weight: 800; margin-top: 8px; }
+
+.platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+.platform-card {
+    background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.08); padding: 24px;
+    border-radius: var(--radius-md); text-align: center; display: flex; flex-direction: column;
+    align-items: center; gap: 12px; transition: var(--transition);
+}
+.platform-card:hover { transform: translateY(-50px); border-color: var(--primary-neon); transform: translateY(-5px); }
+.platform-card i { font-size: 2rem; }
+
+/* Cores das Plataformas */
+.globoplay i { color: #FF0000; }
+.hbo i { color: #9933FF; }
+.disney i { color: #0066FF; }
+.paramount i { color: #0088FF; }
+.telecine i { color: #FF3300; }
+.apple i { color: #FFFFFF; }
+
+/* Grade de Jogos Futebol IA */
+.football-ai { padding: 60px 0; background: rgba(15, 23, 42, 0.3); border-y: 1px solid rgba(255, 255, 255, 0.05); }
+.ai-status-text { font-size: 0.95rem; color: var(--primary-neon); margin-top: 8px; }
+
+.matches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.match-card {
+    background: var(--bg-card); border: 1px solid var(--border-glow); padding: 20px;
+    border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 12px;
+}
+.match-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
+.match-league { font-weight: 700; color: var(--secondary-cyan); }
+.match-time { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); padding: 4px 10px; border-radius: var(--radius-full); font-weight: 700; }
+
+.match-teams { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; padding: 10px 0; }
+.match-channel { font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); pt: 10px; display: flex; align-items: center; gap: 8px; }
+
+/* Catálogo */
+.catalog { padding: 70px 0; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.catalog-card { border-radius: var(--radius-md); overflow: hidden; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); position: relative; }
+.catalog-card img { width: 100%; height: 200px; object-fit: cover; }
+.catalog-card h3 { padding: 16px; font-size: 1.1rem; }
+.catalog-tag { position: absolute; top: 12px; left: 12px; background: rgba(7, 10, 18, 0.8); color: var(--primary-neon); padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; }
+
+.footer { padding: 40px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: center; color: var(--text-muted); }
+
+@media (max-width: 800px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 2.3rem; }
+    .nav-menu { display: none; }
 }
